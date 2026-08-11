@@ -2,18 +2,24 @@
 // Welcome to Astro! Everything between these triple-dash code fences
 // is your "component frontmatter". It never runs in the browser.
 console.log('This runs in your terminal, not the browser!');
+import Navigation from '../components/Navigation.astro';
+import '../styles/global.css';
+
+const pageTitle = "HI I'M A SANDBOX!";
 ---
 <!-- Below is your "component template." It's just HTML, but with
     some magic sprinkled in to help you build great templates. -->
 <html>
   <head>
-    <title>HI I'M A SANDBOX!</title>
-    <h3 style="color: rgb(172, 50, 161);"> HEADER shoulder knees & toes, knees & confiscate this tool from me</h3>
+    <title>{pageTitle}</title>
+
   </head>
-  <body>
+  <body>    
+    <h3 style="color: rgb(172, 50, 161);"> HEADER shoulder knees & toes, knees & confiscate this tool from me</h3>
     <h1>Hello, World!</h1>
     <h1>"I don't know what I'm doing</h1>
     <h2>all I know is that I'm doing this to myself"</h2>
+    <Navigation />
     <h3 style="color:#fff"> changelog and links: <br/>
       - change 1: <br/>undecapitated index's body and gave it a footer out of goodwill,<br/>
       <a href="./about" target="_blank">2nd page: a boot</a><br/>
@@ -21,6 +27,14 @@ console.log('This runs in your terminal, not the browser!');
       sorry the links are illegible here right now but it'll be fixed Soon (TM) aka when I remember what the link groups are called<br/>
       - change 1.5: <br/>
       big ol hint, spoiler, whatever you feel like calling it: <a href="./bighint" target="_blank">click here </a><br/>
+      - change 2: <br/>
+      global.css is born<br/>
+      more nonsense in the about & the BIG HINT pages. the big hint got even bigger.<br/>
+      blog post, be warned, it is currently LIGHT MODE (white background black text) which is like unwelcomingly flicking a light switch on. <a href="posts/post-1">turn on the light switch</a><br/>
+      Q: why are there 50 links for 4 pages<br/>
+      A: sophie remembered how to do links before learning how to create the component <i>Navigation.astro</i><br/>
+      - change 3: <br/>
+      tbd.
     </h3>
   </body>
   <footer>

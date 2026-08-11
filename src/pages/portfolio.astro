@@ -1,15 +1,22 @@
+---
+import Navigation from '../components/Navigation.astro';
+import '../styles/global.css';
+---
 <html>
     <title>Sandfolio</title>
+    <body>
     <header>
     <p>this time, no target=_blank (new tab)<br/> because im too lazy to remove them upon deployment</p><br/>
     <a href="/">entrance</a><br/>
   <a href="/about/">boots</a><br/>
   <a href="/portfolio/">portfolio</a><br/>
     </header>
-  <body>
+  
 <h1> tutorial said make a blog, but this will be a portfolio; <br/>
     let's save myself from pressing ctrl-f blog backspace portfolio ctrl-c ctrl-f blog backspace ctrl-v</h1>
+
   </body>
+  <footer><Navigation /></footer>
   </html>
   <style>
     h1 {
