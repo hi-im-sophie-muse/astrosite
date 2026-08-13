@@ -1,0 +1,68 @@
+---
+// Welcome to Astro! Everything between these triple-dash code fences
+// is your "component frontmatter". It never runs in the browser.
+console.log('This runs in your terminal, not the browser!');
+import Navigation from '../components/Navigation.astro';
+import '../styles/global.css';
+
+const pageTitle = "HI I'M A SANDBOX!";
+---
+<!-- Below is your "component template." It's just HTML, but with
+    some magic sprinkled in to help you build great templates. -->
+<html>
+  <head>
+    <title>{pageTitle}</title>
+
+  </head>
+  <body>    
+    <h3 style="color: rgb(172, 50, 161);"> HEADER shoulder knees & toes, knees & confiscate this tool from me</h3>
+    <h1>Hello, World!</h1>
+    <h1>"I don't know what I'm doing</h1>
+    <h2>all I know is that I'm doing this to myself"</h2>
+    <Navigation />
+    <h3 style="color:#C0C0C1"> changelog and links: <br/>
+      -- change 1: <br/>
+      - undecapitated index's body and gave it a footer out of goodwill,<br/>
+      - <a href="./about" target="_blank">2nd page: a boot</a><br/>
+      - <a href="./portfolio" target="_blank">3rd page: portfo placeholder</a><br/>
+      - sorry the links are illegible here right now but it'll be fixed Soon (TM) aka when I remember what the link groups are called<br/>
+      -- change 1.5: <br/>
+      - big ol hint, spoiler, whatever you feel like calling it: <a href="./bighint" target="_blank">click here </a><br/>
+      -- change 2: <br/>
+      - global.css is born<br/>
+      - more nonsense in the about & the BIG HINT pages. the big hint got even bigger.<br/>
+      - blog post, be warned, it is currently LIGHT MODE (white background black text) which is like unwelcomingly flicking a light switch on. <a href="posts/post-1">turn on the light switch</a><br/>
+      - Q: why are there 50 links for 4 pages<br/>
+      - A: sophie remembered how to do links before learning how to create the component <i>Navigation.astro</i><br/>
+      -- change 3: <br/>
+      - homepage is now a layout - and now i am reaping the benefits of coloring outside the lines during the tutorial stage. <br/>
+      - "try refactoring your other pages like this!" uhhh yeah about that...click around and see why i am nervous about that!<br/>
+      <a href="posts/post-1" target="_blank"> blog no longer kills your eyes </a> unlike the link colors still<br/>
+      - just kidding, i got tired of straining my eyes with the links so i just looked that part up<br/>
+      - blog de blagues organizes my 2 blog posts by the 3 tags they use<br />
+      - skipped RSS, hope it doesn't bite me later on <br/>
+      - have you tried greeting yourself? (works, haven't figured out how to make it visible without highlighting)<br/>
+      - "now we'll teach you how to make a dark mode!" yeah about that...tied to header of About page, because that's the only page which uses Header instead of Navigation. Now you can switch from darkest to darker on that page, and that page only.<br />
+    </h3>
+    <h1>TUTORIAL DONE!<br/> It is time for me to attempt to put the real thing together. (After I do the optional thing which may not be optional after all!)
+    </h1>
+     <slot />
+  </body>
+  <footer>
+    <h3 style="color: rgb(0, 99, 0);">HEEHEEEEEEEEEEEEEEEEEEEEEEEEEE WHY IS MY FOOTER SO HIGH I FORGOT TO STYLE IT</h3>
+  </footer>
+</html>
+<style>
+  h1 {
+    color: #fff;
+  }
+  h2 {
+    color: #ff0000;
+  }
+  body {
+    background-color: #000000;
+  }
+  footer {
+    background-color: #f8a9f4;
+  }
+</style>

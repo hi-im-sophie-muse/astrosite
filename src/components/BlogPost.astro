@@ -1,0 +1,21 @@
+---
+const { title, url } = Astro.props
+const { frontmatter } = Astro.props;
+---
+<li><a href={url}>{title}</a></li>
+  <div class="tags">
+    {frontmatter.tags.map((tag: string) => (
+      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
+    ))}
+  </div>
+
+
+<!--<style>
+  li {
+    list-style-type: none;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+  </style>-->

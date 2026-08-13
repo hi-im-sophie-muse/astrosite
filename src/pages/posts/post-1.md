@@ -1,16 +1,17 @@
 ---
-title: 'My First Blog Post'
+layout: ../../layouts/MarkdownPostLayout.astro
+title: 'My First Blog Post ♥'
 pubDate: 2022-07-01
-description: 'This is the first post of my new Astro blog.'
+description: "help i've got Deer Dance stuck in my head again"
 author: 'Astro Learner'
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
     alt: 'The Astro logo on a dark background with a pink glow.'
 tags: ["astro", "blogging", "learning in public"]
 ---
-# My First Blog Post
+# mY fiRsT bLOg PoSt
 
-Published on: 2022-07-01
+
 
 [hi i'm sophie and i copy/pasted everything around this sentence]
 

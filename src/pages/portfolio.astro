@@ -1,32 +1,59 @@
 ---
-import Navigation from '../components/Navigation.astro';
 import '../styles/global.css';
----
-<html>
-    <title>Sandfolio</title>
-    <body>
-    <header>
-    <p>this time, no target=_blank (new tab)<br/> because im too lazy to remove them upon deployment</p><br/>
-    <a href="/">entrance</a><br/>
-  <a href="/about/">boots</a><br/>
-  <a href="/portfolio/">portfolio</a><br/>
-    </header>
-  
-<h1> tutorial said make a blog, but this will be a portfolio; <br/>
-    let's save myself from pressing ctrl-f blog backspace portfolio ctrl-c ctrl-f blog backspace ctrl-v</h1>
+import Navigation from '../components/Navigation.astro';
+import BlogPost from '../components/BlogPost.astro';
 
+const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
+---
+
+<html lang="en">
+  <head>
+    <title>Sandfolio</title>
+     <meta charset="utf-8" />
+  </head>
+  <body>
+    <header>
+      <p>
+        this time, no target=_blank (new tab)<br />
+        because im too lazy to remove them upon deployment
+      </p>
+      <a href="/">entrance</a><br />
+      <a href="/about/">boots</a><br />
+      <a href="/portfolio/">portfolio</a><br />
+    </header>
+
+    <main>
+      <h1>
+        tutorial said make a blog, but this will be a portfolio;<br />
+        let's save myself from pressing ctrl-f blog backspace portfolio ctrl-c ctrl-f blog backspace ctrl-v
+      </h1>
+
+      <ul>
+        {allPosts.map((post: any) => (
+          <BlogPost url={post.url} title={post.frontmatter.title} />
+        ))}
+      </ul>
+    </main>
+
+    <footer>
+      <Navigation />
+    </footer>
   </body>
-  <footer><Navigation /></footer>
-  </html>
-  <style>
-    h1 {
-      color: #fff;
-    }
-    header {
-      background-color: #bebebe;
-    }
-    body {
-      background-color: #000000;
-    }
-    </style>
-    
+</html>
+
+<style>
+  h1 {
+    color: #fff;
+  }
+
+  header {
+    background-color: <!--#bebebe-->#000000;
+  }
+
+  body {
+    background-color: #000000;
+  }
+  p {
+    color: #bebebe;
+  }
+</style>

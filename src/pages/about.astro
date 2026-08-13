@@ -14,9 +14,9 @@ const identity = {
 
 const skills = ["piano", "crying", "singing", "ukulele playing", "sorting", "yapping", "copy/pasting"];
 const happy = true;
-const finished = false;
+const finished = true;
 const goal = 42;
-const skillColor = "crimson";
+const skillColor = "pink";
 const fontWeight = "italic";
 const textCase = "mixedcase";
 ---
@@ -59,11 +59,15 @@ const textCase = "mixedcase";
       <br/> oh i thought i was done with that page, i guess i'm not<br/></p>
     {happy && <p>I am happy to be learning Astro! They made me write this one down!</p>}
 
-  {finished && <p>I finished this tutorial! If you're seeing this, I'm either actually done or I funked something up!</p>}
+  {finished && <p>I finished this tutorial! If you're seeing this, I'm either actually done (YES) or I funked something up! (YES BUT THE PRIOR IS STILL TRUE)</p>}
 
   {goal === 42 ? <p>My goal is to finish in 42 days.</p> : <p>My goal is not 42 days.</p>}</p><br/>
+  <script>
+  import "../scripts/menu.js";
+  </script>
     </body>
-    <footer><a href="/" target="_blank">I love target=_blank and having 20 tabs open. Do you? (back to home)
+    <footer><a href="/" target="_blank">I love target=_blank and having 20 tabs open. Do you? (back to home) 
+      <br/><br/>I had to style this to make the joke still work. (a:link = blue / a:visited = purple)
 
       <br/>Click this link to support the Lakers. Use the back button and don't click the link to keep supporting the Golden State Warriors. Winners always click the link.</a></footer>
 </html>
@@ -92,7 +96,14 @@ const textCase = "mixedcase";
 
   footer {
     background-color: #fceb58;
-  }
+    
+    a:link {
+    color: blue;
+    }
+  a:visited {
+  color: purple
+ 
+  }}
 
   .skill {
     color: var(--skillColor);
