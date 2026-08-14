@@ -2,8 +2,9 @@
 import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import BlogPost from '../components/BlogPost.astro';
+import { getCollection } from "astro:content";
 
-const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
+const allPosts = await getCollection("blog");
 ---
 
 <html lang="en">
@@ -30,7 +31,7 @@ const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true })
 
       <ul>
         {allPosts.map((post: any) => (
-          <BlogPost url={post.url} title={post.frontmatter.title} />
+          <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
         ))}
       </ul>
     </main>

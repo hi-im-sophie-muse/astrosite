@@ -1,5 +1,6 @@
 ---
 import TestLayout from '../layouts/TestLayout.astro';
+import { getCollection, render } from 'astro:content';
 import Greeting from '../components/greeting.jsx';
 ---
 <!--const { pageTitle } = Astro.props;
@@ -8,6 +9,7 @@ import Greeting from '../components/greeting.jsx';
 not every webpage is a greeting sandbox,
 not every sandbox is virulent (thank god)
 therefore, i must sadly comment you out, tutorial tag-->
+
 <TestLayout>
   <h2>(throws legos on ground) gosh why do my feet hurt</h2>
     <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />

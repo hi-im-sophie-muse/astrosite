@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
 title: 'My First Blog Post ♥'
 pubDate: 2022-07-01
 description: "help i've got Deer Dance stuck in my head again"

@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
 title: "I didn't realize I needed to have 3 posts at this point"
 pubDate: 2022-07-01
 description: "I should find my old no solicitors sign again"

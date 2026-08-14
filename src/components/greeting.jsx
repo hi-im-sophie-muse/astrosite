@@ -8,7 +8,7 @@ export default function Greeting({messages}) {
 
   return (
     <div>
-      <h3>{greeting}! Thank your for visiting! You support matters. You also matter!</h3>
+      <h3 style="color: #c0c0c0">{greeting}! Thank your for visiting! You support matters. You also matter!</h3>
       <button onClick={() => setGreeting(randomMessage())}>
         Greet Yourself
       </button>
