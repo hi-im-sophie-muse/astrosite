@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const works = await getCollection('works', ({ data }) => !data.draft);
+  return works.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{entry.data.title}</title>
+    <meta name="description" content={entry.data.summary.trim()} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'MusicAlbum',
+        name: entry.data.title,
+        datePublished: String(entry.data.year),
+        byArtist: { '@type': 'Person', name: 'Sophie Lacson-Lambinet', jobTitle: 'Composer' },
+      })}
+    />
+  </head>
+  <body>
+    <main>
+      <h1>{entry.data.title}</h1>
+      <p>{entry.data.kind} · {entry.data.year}</p>
+      <h2>tracks</h2>
+      <ol>
+        {entry.data.tracks.map((t) => (
+          <li>
+            <strong>{t.title}</strong> ({t.duration}) — {t.description}
+          </li>
+        ))}
+      </ol>
+      <Content />
+      <p><a href="/">← back</a></p>
+    </main>
+  </body>
+</html>

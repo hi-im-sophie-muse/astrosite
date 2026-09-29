@@ -1,0 +1,31 @@
+---
+import TestLayout from '../layouts/TestLayout.astro';
+import { getCollection, render } from 'astro:content';
+import Greeting from '../components/greeting.jsx';
+
+export async function getStaticPaths() {
+  const works = await getCollection('works', ({ data }) => !data.draft);
+  return works.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+---
+<!--const { pageTitle } = Astro.props;
+  --- code would've ended here ---
+<TestLayout pageTitle = {pageTitle} 
+not every webpage is a greeting sandbox,
+not every sandbox is virulent (thank god)
+therefore, i must sadly comment you out, tutorial tag-->
+
+<a href="/about/">boots</a><br />
+<TestLayout>
+  <h2>(throws legos on ground) gosh why do my feet hurt</h2>
+    <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
+</TestLayout>
+<style>
+  h2 {
+    color: #ffeea4;
+  }
+</style>

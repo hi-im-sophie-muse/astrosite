@@ -1,21 +1,57 @@
 ---
-import TestLayout from '../layouts/TestLayout.astro';
 import { getCollection, render } from 'astro:content';
-import Greeting from '../components/greeting.jsx';
----
-<!--const { pageTitle } = Astro.props;
-  --- code would've ended here ---
-<TestLayout pageTitle = {pageTitle} 
-not every webpage is a greeting sandbox,
-not every sandbox is virulent (thank god)
-therefore, i must sadly comment you out, tutorial tag-->
+import '../styles/global.css';
 
-<TestLayout>
-  <h2>(throws legos on ground) gosh why do my feet hurt</h2>
-    <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
-</TestLayout>
+const works = await getCollection('works', ({ data }) => !data.draft);
+/// const { entry } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Landing</title>
+   <!-- <meta name="description" content={entry.data.summary.trim()} /> -->
+    <!--<script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'MusicAlbum',
+        name: entry.data.title,
+        datePublished: String(entry.data.year),
+        byArtist: { '@type': 'Person', name: 'Sophie Lacson-Lambinet', jobTitle: 'Composer' },
+      })}
+    />-->
+  </head>
+  <body>
+    <main>
+      <h2><a href="./sandbox" target="_blank">ORIGINAL ASTRO v0.4 HOMEPAGE</a><br/></h2>
+      <p>WIP, there's things here, you just gotta highlight 'em</p>
+      {works.map(async (entry) => {
+        const { Content } = await render(entry);
+        return (
+          <section>
+            <h2><a href={'/works/' + entry.id}>{entry.data.title}</a></h2>
+            <p>{entry.data.kind} · {entry.data.year}</p>
+            <ol>
+              {entry.data.tracks.map((t) => (
+                <li>
+                  <strong>{t.title}</strong> ({t.duration}) — {t.description}
+                </li>
+              ))}
+            </ol>
+            <Content />
+          </section>
+        );
+      })}
+    </main>
+  </body>
 <style>
   h2 {
     color: #ffeea4;
   }
+  p {
+    color: #ffeea4;
+  }
 </style>
+</html>

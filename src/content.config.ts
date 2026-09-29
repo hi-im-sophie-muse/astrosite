@@ -1,3 +1,4 @@
+console.log('works config here');
 // Import the glob loader
 import { glob } from "astro/loaders";
 // Import utilities from `astro:content`
@@ -20,4 +21,25 @@ const blog = defineCollection({
     })
 });
 // Export a single `collections` object to register your collection(s)
-export const collections = { blog };
+
+const works = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/works' }),
+  schema: z.object({
+    title: z.string(),
+    kind: z.enum(['game', 'album', 'concert','Easy Listening', 'SUPERCALIFRAGILISTICacapellaDOCIOUS']),
+    year: z.number(),
+    summary: z.string().min(80).max(320),
+    tracks: z
+      .array(
+        z.object({
+          title: z.string(),
+          duration: z.string().regex(/^\d+:\d{2}$/),
+          description: z.string().min(40),
+        }),
+      )
+      .default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, works };
