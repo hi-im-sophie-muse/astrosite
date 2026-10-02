@@ -1,0 +1,46 @@
+:root {
+  --desktop: #008080;
+  --face: #c0c0c0;
+  --light: #ffffff;
+  --shadow: #808080;
+  --dark: #0a0a0a;
+  --title-a: #000080;
+  --title-b: #1076c0;
+  --text: #0a0a0a;
+  --paper: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  background: var(--desktop);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.window {
+  max-width: 40rem;
+  margin: 0 auto 1.25rem;
+  background: var(--face);
+  border: 1px solid;
+  border-color: var(--light) var(--dark) var(--dark) var(--light);
+  box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--shadow);
+  padding: 2px;
+}
+
+.titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(90deg, var(--title-a), var(--title-b));
+  color: #ffffff;
+  padding: 0.3rem 0.6rem;
+  touch-action: none;
+}
+
+.titlebar h2 { margin: 0; font-size: 1rem; }
+.titlebar a { color: #ffffff; text-decoration: underline; }
+
+.body { background: var(--paper); padding: 1rem; }
