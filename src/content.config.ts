@@ -1,4 +1,4 @@
-console.log('works config here');
+// console.log('works config here');
 // Import the glob loader
 import { glob } from "astro/loaders";
 // Import utilities from `astro:content`

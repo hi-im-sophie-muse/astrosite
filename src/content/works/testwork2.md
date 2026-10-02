@@ -12,3 +12,5 @@ tracks:
            description: "There's a She Wolf in your clawset, open up and set 'er free (AA wOOO)" 
 ---
 i own cats, i miss my dogs
+
+Text description of current audio: Melody of the chorus of Anxiety, by Doechii, played on a pizzicato double bass & the melody of the chorus from Somebody I Used to Know by Gotye, played on a xylophone.
