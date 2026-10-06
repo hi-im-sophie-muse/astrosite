@@ -51,6 +51,15 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     setHidden((h) => h.filter((x) => x !== id));
   };
 
+  const home = useRef(new WeakMap<HTMLElement, { x: number; y: number}>());
+
+  const NUDGE: Record<string, [number, number]> = {
+    ArrowLeft: [-8, 0],
+    ArrowRight: [8 , 0],
+    ArrowUp: [0, -8],
+    ArrowDown: [0, 8],
+  };
+
 
   return (
     <div
@@ -74,7 +83,47 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         const d = drag.current;
         if (d) moveTo(d.el, e.clientX - d.dx, e.clientY - d.dy);
       }}
-      onPointerUp={() => (drag.current = null)}
+      onPointerUp={() => {
+        const d = drag.current; 
+        if (d) home.current.set(d.el, pos(d.el));
+        drag.current = null;
+      }}
+      onFocusCapture={(e) => {
+        const win = winOf(e.target);
+        if (!win) return;
+        raise(win);
+        if (!home.current.has(win)) home.current.set(win, pos(win));
+      }}
+      onKeyDown={(e) => {
+        console.log('key', e.key, document.activeElement);
+        if (e.key === 'F6'|| e.key === "j" || e.key === "J") {
+            e.preventDefault();
+            // console.log('heard')
+            const bars = [
+              ...(e.currentTarget as HTMLElement).querySelectorAll<HTMLElement>(
+                  '.window:not([hidden]) .titlebar',
+              ),
+            ];
+  const current = (e.target as HTMLElement).closest?.('.titlebar');
+  const i = bars.indexOf(current as HTMLElement);
+  bars[(i + 1) % bars.length]?.focus();
+  return;
+}
+      const bar = (e.target as HTMLElement).closest?.('.titlebar');
+      const win = winOf(bar);
+      if (!bar || !win) return;
+      if (NUDGE[e.key]) {
+        e.preventDefault();
+        const [dx, dy] = NUDGE[e.key];
+        const { x, y } = pos(win);
+        moveTo(win, x + dx, y + dy); 
+      } else if (e.key === 'Enter') {
+        home.current.set(win, pos(win));
+      } else if (e.key === 'Escape') {
+        const h = home.current.get(win);
+        if (h) moveTo(win, h.x, h.y);
+      }
+    }}
     >
         {children}
         <nav className="taskbar" aria-label="open windows">
