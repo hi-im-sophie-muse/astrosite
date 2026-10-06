@@ -31,8 +31,8 @@ const works = await getCollection('works', ({ data }) => !data.draft);
       {works.map(async (entry) => {
         const { Content } = await render(entry);
         return (
-          <section class="window">
-            <header class="titlebar"><a href={'/works/' + entry.id}>{entry.data.title}</a></header>
+          <section class="window" id={entry.id}>
+            <header class="titlebar"><a href={'/works/' + entry.id}>{entry.data.title}</a><button class="minbtn">_</button></header>
             <div class="body">
               <img src={entry.data.kind} alt={entry.data.title} />
             <p>{entry.data.kind} · {entry.data.year}</p>
