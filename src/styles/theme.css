@@ -21,6 +21,17 @@
   --paper: #ffffff;
 }
 
+:root[data-theme='night'] {
+  --desktop: #003535;
+  --face: #3f3f3f;
+  --light: #999999;
+  --shadow: #000;
+  --title-a: #1076c0;
+  --title-b: #000080;
+  --text: #fff;
+  --paper: #555555; /* achieved mathematically and not superstitiously nor surreptitiously */
+}
+
 body {
   margin: 0;
   padding: 1rem;
@@ -55,5 +66,16 @@ body {
 .titlebar h2 { margin: 0; font-size: 1rem; }
 .titlebar a { color: #ffffff; text-decoration: underline; }
 
+/* :root[data-theme='night'] a:link { color: #1076c0; } 
+:root[data-theme='night'] a:visited { color: #9076c0; } 
+:root[data-theme='night'] a:focus { color: #ff0000; } 
+:root[data-theme='night'] a:hover { color: #900080; } */
+
 .body { background: var(--paper); padding: 1rem; }
+
+.themebtn {
+  position:fixed;
+  right: 1rem;
+  bottom: 3rem;
+}
 
