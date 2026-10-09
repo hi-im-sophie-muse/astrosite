@@ -1,11 +1,12 @@
 .taskbar {
+  font-family: 'WIN95FA', system-ui, sans-serif;
   bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   gap: 0.25rem;
   background-color: #808080;
-  position: fixed;
+  position: fixed;  
   z-index: 9999;
 }
 
@@ -52,6 +53,7 @@ body {
 }
 
 .titlebar {
+  font-family: 'WIN95FA', system-ui, sans-serif;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,3 +81,24 @@ body {
   bottom: 3rem;
 }
 
+.icons { 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 0.5rem 0 1rem
+}
+
+.icons .icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 5.5rem;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+}
+
+.icons img { image-rendering: pixelated;}
+.icons span {background: var(--desktop); padding: 0 0.25rem}

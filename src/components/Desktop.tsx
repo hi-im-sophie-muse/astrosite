@@ -64,6 +64,11 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   return (
     <div
       onClick={(e) => {
+        const icon = (e.target as HTMLElement).closest('a.icon') as HTMLAnchorElement | null;
+        if (icon) {
+          show(icon.hash.slice(1));
+          return;
+        }
         const btn = (e.target as HTMLElement).closest('.minbtn');
         const win = winOf(btn);
         if (btn && win) hide(win.id);
