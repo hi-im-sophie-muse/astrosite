@@ -49,8 +49,9 @@ const works = await getCollection('works', ({ data }) => !data.draft);
       {works.map(async (entry) => {
         const { Content } = await render(entry);
         return (
-          <section class="window" id={entry.id}> <!-- test -->
-            <header class="titlebar" tabindex="0"><a href={'/works/' + entry.id}>{entry.data.title}</a><button class="minbtn">_</button></header>
+          <section class="window" id={entry.id}>
+            <header class="titlebar" tabindex="0"><a href={'/works/' + entry.id}>{entry.data.title}</a><button class="minbtn">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button>
+<button class="closebtn" type="button" aria-label="close">×</button></header>
             <div class="body">
               <img src={entry.data.kind} alt={entry.data.title} />
             <p>{entry.data.kind} · {entry.data.year}</p>

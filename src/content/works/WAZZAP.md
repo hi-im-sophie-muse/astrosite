@@ -17,7 +17,7 @@ tracks:
 
 3. Smooth out the edges.
 
-4. resolve wraparound issues
+4. resolve wraparound issues (+ new! buttons are three bros sittin' in a hottub five feet apart)
 
 not in that order. 
 

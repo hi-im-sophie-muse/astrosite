@@ -8,6 +8,39 @@
   background-color: #808080;
   position: fixed;  
   z-index: 9999;
+  height: 2.4rem;
+}
+
+.start { position: relative; }
+
+.startmenu {
+  position: absolute;
+  bottom: calc(100% + 0.3rem);
+  left: 0;
+  min-width: 11rem;
+  list-style: none;
+  margin: 0;
+  padding: 2px;
+  background: var(--face);
+  border: 1px solid;
+  border-color: var(--light) var(--dark) var(--dark) var(--light);
+}
+
+.startmenu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  color: var(--text);
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+.startmenu button:hover,
+.startmenu button:focus-visible {
+  background: var(--title-a);
+  color: #ffffff;
 }
 
 :root {
@@ -52,6 +85,16 @@ body {
   padding: 2px;
 }
 
+.window.maxed {
+  position: fixed !important;
+  inset: 0 0 2.4rem 0;
+  left: 0 !important;
+  top: 0 !important;
+  max-width: none;
+  margin: 0;
+  overflow: auto;
+}
+
 .titlebar {
   font-family: 'WIN95FA', system-ui, sans-serif;
   display: flex;
@@ -79,6 +122,14 @@ body {
   position:fixed;
   right: 1rem;
   bottom: 3rem;
+}
+
+.taskbar button {
+  font-family: inherit;
+}
+
+.titlebar button {
+  font-family: inherit;
 }
 
 .icons { 

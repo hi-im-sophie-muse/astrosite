@@ -6,6 +6,11 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   const top = useRef(1);
   const [wins, setWins] = useState<{ id:string; title: string }[]>([]);
   const [hidden, setHidden] = useState<string []>([]);
+  const [closed, setClosed] = useState<string[]>([]);
+  const [startOpen, setStartOpen] = useState(false);
+  const startBtn = useRef<HTMLButtonElement>(null);
+
+  
 
   useEffect(() => {
     const els = [...document.querySelectorAll<HTMLElement>('.window')];
@@ -14,10 +19,21 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
       title: el.querySelector('a')?.textContent ?? el.id, 
     })))
   }, []);
-
+  
   // i'm sorry, what in the fresh hell is wrong with this language??? 
   // endcurly 3(endparenthesis) linebreak, one indent left endcurly comma startbracket endbracket endparenthesis 
-  // and the ever load-bearing semi-colon; else: i will throw errors + tantrums, and blind your retinas over it
+  // and the ever load-bearing semi-colon; else if: i will throw errors + tantrums, and blind your retinas over it
+
+  useEffect(() => {
+  if (!startOpen) return;
+  const onDown = (e: PointerEvent) => {
+    if (!(e.target as HTMLElement).closest('.start')) setStartOpen(false);
+  };
+  document.addEventListener('pointerdown', onDown);
+  return () => document.removeEventListener('pointerdown', onDown);
+}, [startOpen]);
+
+
 
   const winOf = (t: EventTarget | null) =>
     (t as HTMLElement | null)?.closest?.('.window') as HTMLElement | null;
@@ -43,12 +59,18 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     setHidden((h) => (h.includes(id) ? h : [...h, id]));
   };
 
+  const closeWin = (id: string) => {
+    document.getElementById(id)?.setAttribute('hidden', '');
+    setClosed((h) => (h.includes(id) ? h : [...h, id]));
+  };
+
   const show = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
     el.removeAttribute('hidden');
     raise(el);
     setHidden((h) => h.filter((x) => x !== id));
+    setClosed((c) => c.filter((x) => x !== id));
   };
 
   const home = useRef(new WeakMap<HTMLElement, { x: number; y: number}>());
@@ -60,18 +82,29 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     ArrowDown: [0, 8],
   };
 
-
+  const toggleMax = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('maxed');
+  raise(el);
+};
   return (
     <div
       onClick={(e) => {
+        const t = e.target as HTMLElement;
         const icon = (e.target as HTMLElement).closest('a.icon') as HTMLAnchorElement | null;
         if (icon) {
           show(icon.hash.slice(1));
           return;
         }
-        const btn = (e.target as HTMLElement).closest('.minbtn');
-        const win = winOf(btn);
-        if (btn && win) hide(win.id);
+        // const btn = (e.target as HTMLElement).closest('.minbtn');
+        // const win = winOf(btn);
+        // if (btn && win) hide(win.id);
+          const win = winOf(t);
+        if (!win) return;
+        if (t.closest('.minbtn')) hide(win.id);
+        else if (t.closest('.closebtn')) closeWin(win.id);
+        else if (t.closest('.maxbtn')) toggleMax(win.id);
       }}
       onPointerDown={(e) => {
         const win = winOf(e.target);
@@ -79,6 +112,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         raise(win);
         if (!(e.target as HTMLElement).closest('.titlebar')) return;
         if ((e.target as HTMLElement).closest('button')) return;
+        if (win.classList.contains('maxed')) return;
         const { x, y } = pos(win);
         e.preventDefault();
         drag.current = { el: win, dx: e.clientX - x, dy: e.clientY - y };
@@ -100,7 +134,12 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         if (!home.current.has(win)) home.current.set(win, pos(win));
       }}
       onKeyDown={(e) => {
-        console.log('key', e.key, document.activeElement);
+        if (e.key === 'Escape' && startOpen) {
+          setStartOpen(false);
+          startBtn.current?.focus();
+          return;
+        }
+        // console.log('key', e.key, document.activeElement);
         if (e.key === 'F6'|| e.key === "j" || e.key === "J") {
             e.preventDefault();
             // console.log('heard')
@@ -132,7 +171,34 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     >
         {children}
         <nav className="taskbar" aria-label="open windows">
-          {wins.map((w) => (
+          <span className="start">
+            <button
+              type="button"
+              ref={startBtn}
+              aria-expanded={startOpen}
+              onClick={() => setStartOpen((o) => !o)}
+            >
+              start
+            </button>
+            {startOpen && (
+              <ul className="startmenu">
+                {wins.map((w) => (
+                  <li key={w.id}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStartOpen(false);
+                        show(w.id);
+                      }}
+                    >
+                      {w.title}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </span>
+          {wins.filter((w) => !closed.includes(w.id)).map((w) => (
             <button
               key={w.id}
               type="button"
