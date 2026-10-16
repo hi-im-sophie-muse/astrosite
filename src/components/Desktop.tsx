@@ -9,6 +9,8 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   const [closed, setClosed] = useState<string[]>([]);
   const [startOpen, setStartOpen] = useState(false);
   const startBtn = useRef<HTMLButtonElement>(null);
+  const [msg, setMsg] = useState('');
+  const titleOf = (id: string) => wins.find((w) => w.id === id)?.title ?? id;
 
   
 
@@ -17,13 +19,26 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     setWins(els.map((el) => ({
       id: el.id,
       title: el.querySelector('a')?.textContent ?? el.id, 
-    })))
+    })));
+    // i'm sorry, what in the fresh hell is wrong with this language??? 
+    // endcurly 3(endparenthesis) linebreak, one indent left endcurly comma startbracket endbracket endparenthesis
+    // and the ever load-bearing semi-colon; else if: i will throw errors + tantrums, and blind your retinas over it 
+    const saved = load();
+    for (const [id, p] of Object.entries<{ x: number; y: number }>(saved.pos ?? {})) {
+      const el = document.getElementById(id);
+      if (el) moveTo(el, p.x, p.y);
+    }
+    for (const id of saved.maxed ?? []) {
+      document.getElementById(id)?.classList.add('maxed');
+    }
+    for (const id of [...(saved.hidden ?? []), ...(saved.closed ?? [])]) {
+      document.getElementById(id)?.setAttribute('hidden', '');
+    }
+    setHidden(saved.hidden ?? []);
+    setClosed(saved.closed ?? []);
   }, []);
-  
-  // i'm sorry, what in the fresh hell is wrong with this language??? 
-  // endcurly 3(endparenthesis) linebreak, one indent left endcurly comma startbracket endbracket endparenthesis 
-  // and the ever load-bearing semi-colon; else if: i will throw errors + tantrums, and blind your retinas over it
 
+// uE2: start menu
   useEffect(() => {
   if (!startOpen) return;
   const onDown = (e: PointerEvent) => {
@@ -47,6 +62,13 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     el.style.position = 'relative';
     el.style.left = x + 'px';
     el.style.top = y + 'px';
+    const pageTop = el.getBoundingClientRect().top + window.scrollY;
+      if (pageTop < 0) el.style.top = (y - pageTop) + 'px';
+    const pageLeft = el.getBoundingClientRect().left + window.scrollX;
+      if (pageLeft < 0) el.style.left = (x - pageLeft) + 'px';
+    // const pageRight = el.getBoundingClientRect().right + window.scrollX;
+    //  if (pageRight < 0) el.style.right = (x - pageRight) + 'px';
+    // I would fix this if it actually got deployed but why would I when I see these magical symbols (//)
   };
 
   const raise = (el: HTMLElement) => {
@@ -56,7 +78,10 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   
   const hide = (id: string) => {
     document.getElementById(id)?.setAttribute('hidden', '');
-    setHidden((h) => (h.includes(id) ? h : [...h, id]));
+    const next = hidden.includes(id) ? hidden : [...hidden, id];
+    setHidden(next);
+    save({ hidden: next });
+    setMsg(titleOf(id) + ' minimized');
   };
 
   const closeWin = (id: string) => {
@@ -69,11 +94,44 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     if (!el) return;
     el.removeAttribute('hidden');
     raise(el);
-    setHidden((h) => h.filter((x) => x !== id));
-    setClosed((c) => c.filter((x) => x !== id));
+    const nextHidden = hidden.filter((x) => x !== id);
+    const nextClosed = closed.filter((x) => x !== id);
+    setHidden(nextHidden);
+    setClosed(nextClosed);
+    save({ hidden: nextHidden, closed: nextClosed });
+  };
+
+  const toggleMax = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const on = el.classList.toggle('maxed');
+    raise(el);
+    const maxed = [...document.querySelectorAll('.window.maxed')].map((m) => m.id);
+    save({ maxed });
+    setMsg(titleOf(id) + (on ? ' maximized' : ' back to its size'));
   };
 
   const home = useRef(new WeakMap<HTMLElement, { x: number; y: number}>());
+
+  const KEY = 'desktop:v1';
+
+  const load = () => {
+    try {
+      return JSON.parse(localStorage.getItem(KEY) || '{}');
+    } catch {
+      return {};
+    }
+  };
+
+  const save = (patch: object) => {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ ...load(), ...patch }));
+    } catch {}
+  };
+
+  const savePos = (el: HTMLElement) => {
+    save({ pos: { ...load().pos, [el.id]: pos(el) } });
+  };
 
   const NUDGE: Record<string, [number, number]> = {
     ArrowLeft: [-8, 0],
@@ -82,12 +140,6 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     ArrowDown: [0, 8],
   };
 
-  const toggleMax = (id: string) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.classList.toggle('maxed');
-  raise(el);
-};
   return (
     <div
       onClick={(e) => {
@@ -112,9 +164,11 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         raise(win);
         if (!(e.target as HTMLElement).closest('.titlebar')) return;
         if ((e.target as HTMLElement).closest('button')) return;
+        if ((e.target as HTMLElement).closest('a')) return;
         if (win.classList.contains('maxed')) return;
         const { x, y } = pos(win);
         e.preventDefault();
+        (e.target as HTMLElement).closest<HTMLElement>('.titlebar')?.focus();
         drag.current = { el: win, dx: e.clientX - x, dy: e.clientY - y };
         (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
       }}
@@ -124,7 +178,10 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
       }}
       onPointerUp={() => {
         const d = drag.current; 
-        if (d) home.current.set(d.el, pos(d.el));
+          if (d) {
+          home.current.set(d.el, pos(d.el));
+          savePos(d.el);
+        }
         drag.current = null;
       }}
       onFocusCapture={(e) => {
@@ -139,8 +196,9 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
           startBtn.current?.focus();
           return;
         }
-        // console.log('key', e.key, document.activeElement);
-        if (e.key === 'F6'|| e.key === "j" || e.key === "J") {
+        console.log('key', e.key, document.activeElement);
+        
+        if (e.key === 'F6') {
             e.preventDefault();
             // console.log('heard')
             const bars = [
@@ -169,6 +227,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
       }
     }}
     >
+      <p className="announcer" role="status" aria-live="polite">{msg}</p>
         {children}
         <nav className="taskbar" aria-label="open windows">
           <span className="start">

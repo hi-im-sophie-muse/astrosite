@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const works = await getCollection('works', ({ data }) => !data.draft);
@@ -30,6 +31,9 @@ const { Content } = await render(entry);
   <body>
     <main>
       <h1>{entry.data.title}</h1>
+       {entry.data.coverArt && (
+      <Image src={entry.data.coverArt} alt={'Cover art for ' + entry.data.title} width={480} />
+      )}
       <p>{entry.data.kind} · {entry.data.year}</p>
       <h2>tracks</h2>
       <ol>
@@ -39,6 +43,16 @@ const { Content } = await render(entry);
           </li>
         ))}
       </ol>
+      {entry.data.links.length > 0 && (
+        <ul>
+          {entry.data.links.map((link) => (
+            <li><a href={link.url}>{link.label}</a></li>
+          ))}
+        </ul>
+      )}
+      {entry.data.instrumentation.length > 0 && (
+            <p>for {entry.data.instrumentation.join(', ')}</p>
+          )}
       <Content />
       <p><a href="/">← back</a></p>
     </main>

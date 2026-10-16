@@ -6,6 +6,8 @@ import { defineCollection } from "astro:content";
 // Import Zod
 import { z } from "astro/zod";
 // Define a `loader` and `schema` for each collection
+
+// THIS MODIFIES BLOG!!
 const blog = defineCollection({
     loader: glob({ pattern: '**/[^_]*.md', base: "./src/blog" }),
     schema: z.object({
@@ -15,16 +17,19 @@ const blog = defineCollection({
       author: z.string(),
       image: z.object({
         url: z.string(),
-        alt: z.string()
+        alt: z.string(),
       }),
       tags: z.array(z.string())
     })
 });
 // Export a single `collections` object to register your collection(s)
 
+// THIS IS THE ONE YOU WANT!!
+
 const works = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/works' }),
-  schema: z.object({
+  schema: ({ image }) =>
+    z.object({
     title: z.string(),
     kind: z.enum(['game', 'album', 'concert','Easy Listening', 'SUPERCALIFRAGILISTICacapellaDOCIOUS']),
     year: z.number(),
@@ -39,6 +44,9 @@ const works = defineCollection({
       )
       .default([]),
     draft: z.boolean().default(false),
+    links: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
+    instrumentation: z.array(z.string()).default([]),
+    coverArt: image().optional(),
   }),
 });
 

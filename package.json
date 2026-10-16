@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/check.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -15,10 +15,12 @@
     "@astrojs/preact": "^6.0.2",
     "@fontsource/win95fa": "^5.3.0",
     "astro": "^7.2.2",
-    "preact": "^10.29.8"
+    "preact": "^10.29.8",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "yaml": "^2.9.1"
   }
 }
