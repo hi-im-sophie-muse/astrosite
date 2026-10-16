@@ -39,7 +39,7 @@ Honestly, I'm pleased with how it's presently handled so it's hard to figure out
 
 
 ## Glanimals
-tamok accidentally pasted an unrelated message with the term ganimal, which is a nickname for a band that I discovered in ~2018, definitely not old. The takeaway from that, though, is that I looked into the small PG icon available from that link - its existence feels very reminiscent of early internet. It's post Win95 and I'm still on the fence about it; alternate option is a Clippy variant but that takes more work in terms of making it feel as alive as Clippy.
+tamok accidentally pasted an unrelated message with the term ganimal, which is a nickname for a band that I discovered in ~2018, definitely not old. The takeaway from that, though, is that I looked into the small PG icon available from that link - its existence feels very reminiscent of early internet. It's post Win95 and I'm still on the fence about it; alternate option is a Clippy variant but that takes more work in terms of making it feel as alive as Clippy. For screen readers, if Clippy has text, reader will have to also announce that.
 
 ## The works
 Tentatively, the 6 featured works on the primary site may be the first to go live here. Afterwards, backwards chronological order or any works that are very relevant (game works, works that highlight different genres)
@@ -52,7 +52,7 @@ Ludopastiche (the album, rather), whichever track is the most recent, demo reel 
 
 ## Windows pushed off-screen
 Can people shove windows away, 
-Yes.
+Yes (currently restricted to only being able to do this to the bottom or right, though it happens accidentally and I'll let people exploit the "accidentally")
 
 with a way back, 
 Refresh/factory reset
@@ -73,7 +73,8 @@ Work's own page.
 
 ## Where the words live
 Each work's own page? (Leaning now, final answer in II.2.)
-Words live on their respective pages.
+Words live on their respective pages - /works/workid. Homepage should host an icon-sized version of the album art, tracks, genre, release year, and title;
+titlebar needs to be obvious enough that clicking it will give more information (and that more info exists in the first place). I toyed with adding "click to bookmark" at the end, or something similar, to signal this. "Click for more info" in the body would also work, though dry. 
 
 ## Audio
 How big is the full set of masters, 

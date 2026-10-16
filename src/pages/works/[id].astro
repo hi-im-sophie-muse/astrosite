@@ -31,10 +31,10 @@ const { Content } = await render(entry);
   <body>
     <main>
       <h1>{entry.data.title}</h1>
-       {entry.data.coverArt && (
+      <p>{entry.data.kind} · {entry.data.year}</p>
+             {entry.data.coverArt && (
       <Image src={entry.data.coverArt} alt={'Cover art for ' + entry.data.title} width={480} />
       )}
-      <p>{entry.data.kind} · {entry.data.year}</p>
       <h2>tracks</h2>
       <ol>
         {entry.data.tracks.map((t) => (
