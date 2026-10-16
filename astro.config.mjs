@@ -5,5 +5,6 @@ import preact from '@astrojs/preact';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [preact()]
+  integrations: [preact()],
+  site: 'https://hi-im-sophie-muse.netlify.app/'
 });

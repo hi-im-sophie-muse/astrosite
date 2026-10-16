@@ -7,11 +7,17 @@ tracks:
          - title: "Watching the game, having a [redacted]. True."
            duration: "8:30"
            description: "WAZZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP"
+links:
+  - label: HELLO SHORTY
+    url: https://www.youtube.com/watch?v=A3oL7v7PLac
+instrumentation:
+  - a helper!!!
+coverArt: ../../../public/icons/WAZZAP.png
 ---
 
 # TODO
 
-1. WCAG AA/AAA compliance check
+1. WCAG AA/AAA compliance check (incl link colors)
 
 2. Transfer content (bio, list of works, etc.)
 

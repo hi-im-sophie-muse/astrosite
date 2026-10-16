@@ -9,7 +9,13 @@ tracks:
            description: "Something something awoooooooooooooooooooooooooooooooooooo" 
          - title: "She Wolf"
            duration: "3:08"
-           description: "There's a She Wolf in your clawset, open up and set 'er free (AA wOOO)" 
+           description: "There's a She Wolf in your clawset, open up and set 'er free (AA wOOO)"
+links:
+  - label: full release on YouTube
+    url: https://youtube.com/watch?v=dQw4w9WgXcQ
+instrumentation:
+  - two wolves
+coverArt: ../../../public/icons/testwork2.png
 ---
 i own cats, i miss my dogs
 

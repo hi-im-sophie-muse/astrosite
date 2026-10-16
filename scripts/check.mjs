@@ -32,4 +32,4 @@ for (const file of readdirSync('src/content/works').filter((f) => f.endsWith('.m
 }
 
 if (missing) process.exit(1);
-console.log("Good news everyone! I've taught the toaster to feel love. Ship available, every track description reaches the HTML.");
+console.log("Good news everyone! I've taught the toaster to feel love. (Ready to ship)");

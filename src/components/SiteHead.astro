@@ -1,0 +1,39 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  schema?: object;
+}
+
+const { title, description, image = '/og-default.png', imageAlt = "Sophie Lacson-Lambinet's shared Windows 95 Desktop", type = 'website', schema } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{title}</title>
+<link rel="canonical" href={canonical}>
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical.href} />
+<meta property="og:type" content="website"/>
+<meta property="og:image" content={imageUrl.href} />
+<meta property="og:image:alt" content={imageAlt} />
+
+{/* long live twt, down with the other */}
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonical.href} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageUrl.href} />
+<script 
+    type="application/ld+json" 
+    set:html={JSON.stringify(schema)} />
+    {/* '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    creditText: "hi i'm sophie lacson-lambinet, i made most of what's on this page" */}

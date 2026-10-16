@@ -1,13 +1,19 @@
 ---
 import { getCollection, render } from 'astro:content';
-import '../styles/theme.css';
+
 import Desktop from '../components/Desktop.tsx';
 import ThemeToggle from '../components/ThemeToggle.tsx';
-import '@fontsource/win95fa';
-
+import { Image } from 'astro:assets';
+import DeskLayout from '../layouts/DeskLayout.astro';
 
 const works = await getCollection('works', ({ data }) => !data.draft);
-/// const { entry } = Astro.props;
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Sophie Lacson-Lambinet',
+  jobTitle: 'Composer',
+  url: Astro.site?.href,
+}
 ---
 
 <html lang="en">
@@ -20,20 +26,9 @@ const works = await getCollection('works', ({ data }) => !data.draft);
     if (saved) document.documentElement.dataset.theme = saved;
   } catch {}
 </script>
-    <title>Landing</title>
-   <!-- <meta name="description" content={entry.data.summary.trim()} /> -->
-    <!--<script
-      type="application/ld+json"
-      set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'MusicAlbum',
-        name: entry.data.title,
-        datePublished: String(entry.data.year),
-        byArtist: { '@type': 'Person', name: 'Sophie Lacson-Lambinet', jobTitle: 'Composer' },
-      })}
-    />-->
   </head>
   <body>
+    <DeskLayout title="landing • hi, i'm Sophie Lacson-Lambinet" description="Composer who specializes in orchestral video game music, but can do tons more! Sophie Lacson-Lambinet shares her Windows 95 desktop for visitors to peruse">   
     <ThemeToggle client:load />
     <main>
       <h2><a href="./sandbox" target="_blank">ORIGINAL ASTRO v0.4 HOMEPAGE</a><br/></h2>
@@ -41,7 +36,7 @@ const works = await getCollection('works', ({ data }) => !data.draft);
       <nav class="icons" aria-label="shortcuts">
         {works.map((entry) => (
         <a class="icon" href={'#' + entry.id} >
-          <img src ={'/icons/' + entry.id + '.png'} alt="" width="32" height="32" />
+          {entry.data.coverArt && <Image src={entry.data.coverArt} alt="" width={64} />}
           <span>{entry.data.title}</span>
           </a>
         ))}
@@ -70,5 +65,6 @@ const works = await getCollection('works', ({ data }) => !data.draft);
       })}
         </Desktop>
       </main>
+    </DeskLayout>
   </body>
 </html>

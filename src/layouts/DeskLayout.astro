@@ -1,0 +1,25 @@
+---
+import SiteHead from '../components/SiteHead.astro';
+import '../styles/theme.css';
+import '@fontsource/win95fa';
+
+const { title, description, image, schema } = Astro.props;
+---
+
+<html lang="en">
+<head>
+    <SiteHead title={title} description={description}/>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+ <script is:inline>
+      try {
+        const saved = localStorage.getItem('desktop-theme');
+        if (saved) document.documentElement.dataset.theme = saved;
+      } catch {}
+    </script>
+</head>
+<body>
+    <slot />
+</body>
+</html>
