@@ -73,7 +73,7 @@ Work's own page.
 
 ## Where the words live
 Each work's own page? (Leaning now, final answer in II.2.)
-Words live on their respective pages - /works/workid. Homepage should host an icon-sized version of the album art, tracks, genre, release year, and title;
+Words live on their respective pages - /works/workid. Homepage should host an icon-sized version of the album art, tracks, genre, release year, and title (NEW: ALSO RESTATE TITLE AND INSTRUMENTATION IF PRESENT - FELT TOO BARE);
 titlebar needs to be obvious enough that clicking it will give more information (and that more info exists in the first place). I toyed with adding "click to bookmark" at the end, or something similar, to signal this. "Click for more info" in the body would also work, though dry. 
 
 ## Audio

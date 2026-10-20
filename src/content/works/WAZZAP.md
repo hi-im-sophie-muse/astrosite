@@ -1,6 +1,6 @@
 ---
 title: '"WAZAAAAAAP" a.k.a. what is this?'
-kind: "Easy Listening"
+kind: "single"
 year: 2026
 summary: "Nothing. Sitting here, watching the game. Yo, pick up the phone! a.k.a making sense of this site right now"
 tracks:
@@ -13,6 +13,9 @@ links:
 instrumentation:
   - a helper!!!
 coverArt: ../../../public/icons/WAZZAP.png
+# desktop icon
+icon: WAZZAP
+# minicon
 ---
 
 # TODO

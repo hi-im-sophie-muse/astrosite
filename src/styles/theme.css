@@ -120,6 +120,7 @@ body {
 
 .titlebar h2 { margin: 0; font-size: 1rem; }
 .titlebar a { color: #ffffff; text-decoration: underline; margin: 0 auto 0 0;}
+.titlebar a[href^='/works/']::after { content: ' (click for more)'; }
 
 /* :root[data-theme='night'] a:link { color: #1076c0; } 
 :root[data-theme='night'] a:visited { color: #9076c0; } 

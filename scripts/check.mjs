@@ -10,7 +10,7 @@ const decode = (s) =>
     .replace(/[’‘]/g, "'")
     .replace(/\s+/g, ' ');
 
-const html = decode(readFileSync('dist/index.html', 'utf8'));
+const home = decode(readFileSync('dist/index.html', 'utf8'));
 let missing = 0;
 
 for (const file of readdirSync('src/content/works').filter((f) => f.endsWith('.md'))) {
@@ -19,12 +19,14 @@ for (const file of readdirSync('src/content/works').filter((f) => f.endsWith('.m
 // ah it seems javascript also has this f/^-- a-\ jargon too
 // all of that to parse the frontmatter huh
   if (front.draft) continue;
-    if (!html.includes(decode(front.title))) {
+  const id = file.replace(/\.md$/, '').toLowerCase();
+  const page = decode(readFileSync('dist/works/' + id + '/indexedDB.html', 'utf8'));
+    if (!home.includes(decode(front.title))) {
     console.error('MISSING from the home page:', file, '- the title');
     missing++;
   }
   for (const track of front.tracks ?? []) {
-    if (!html.includes(decode(track.description.trim()))) {
+    if (!page.includes(decode(track.description.trim()))) {
       console.error('MISSING from the home page:', file, '-', track.title);
       missing++;
     }

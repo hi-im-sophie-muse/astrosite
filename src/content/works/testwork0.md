@@ -1,6 +1,6 @@
 ---
 title: 'Constant Unsettling Screaming'
-kind: "Easy Listening"
+kind: "single"
 year: 2000
 summary: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 tracks:

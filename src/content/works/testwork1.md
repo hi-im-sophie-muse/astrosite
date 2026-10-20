@@ -1,6 +1,6 @@
 ---
 title: 'Distress Comparable to Toe Stubbing'
-kind: "SUPERCALIFRAGILISTICacapellaDOCIOUS"
+kind: "single"
 year: 2001
 summary: "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
 tracks:

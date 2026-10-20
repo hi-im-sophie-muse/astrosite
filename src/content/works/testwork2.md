@@ -1,6 +1,6 @@
 ---
 title: 'There Are Two Wolves Inside You'
-kind: "album"
+kind: "single"
 year: 2012
 summary: "Who invited moon moon? Character Limit Character Limit Character Minimum Charact"
 tracks:
@@ -16,6 +16,9 @@ links:
 instrumentation:
   - two wolves
 coverArt: ../../../public/icons/testwork2.png
+collaborators: 
+  - name: moon moon
+    role: his best
 ---
 i own cats, i miss my dogs
 

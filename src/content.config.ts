@@ -31,7 +31,7 @@ const works = defineCollection({
   schema: ({ image }) =>
     z.object({
     title: z.string(),
-    kind: z.enum(['game', 'album', 'concert','Easy Listening', 'SUPERCALIFRAGILISTICacapellaDOCIOUS']),
+    kind: z.enum(['album', 'single']), // Rest in peace Easy Listening (0, 2) & 'SUPERCALIFRAGILISTICacapellaDOCIOUS' (1)
     year: z.number(),
     summary: z.string().min(80).max(320),
     tracks: z
@@ -47,7 +47,18 @@ const works = defineCollection({
     links: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
     instrumentation: z.array(z.string()).default([]),
     coverArt: image().optional(),
+    order: z.number().default(100),
+    featured: z.boolean().default(false),
+    group: z.string().default('Works'),
+    client: z.string().optional(),
+    role: z.string().default('Composer'),
+    collaborators: z.array(z.object({ name: z.string(), role: z.string().optional(), url: z.url().optional() })).default([]),
+    icon: z.string().optional(),
   }),
 });
 
 export const collections = { blog, works };
+export const schemaTypeFor: Record<string, string> = {
+  single: 'MusicRecording',
+  album: 'MusicAlbum',
+};

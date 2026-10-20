@@ -1,12 +1,15 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 import Desktop from '../components/Desktop.tsx';
 import ThemeToggle from '../components/ThemeToggle.tsx';
 import { Image } from 'astro:assets';
 import DeskLayout from '../layouts/DeskLayout.astro';
+import { labelFor, iconFor } from '../lib/kinds.ts';
 
 const works = await getCollection('works', ({ data }) => !data.draft);
+works.sort((a,b) => a.data.order - b.data.order || b.data.year - a.data.year);
+
 const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -41,24 +44,20 @@ const person = {
           </a>
         ))}
       </nav>
-      {works.map(async (entry) => {
-        const { Content } = await render(entry);
+      {works.map((entry) => {
         return (
           <section class="window" id={entry.id}>
             <header class="titlebar" tabindex="0"><a href={'/works/' + entry.id} target="_blank">{entry.data.title}</a><button class="minbtn">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button>
 <button class="closebtn" type="button" aria-label="close">×</button></header>
             <div class="body">
-              <img src={entry.data.kind} alt={entry.data.title} />
-            <p>{entry.data.kind} · {entry.data.year}</p>
+              <img src={iconFor(entry.data)} alt="" width="32" height="32" />
+              <p>{entry.data.title} - {[labelFor[entry.data.kind], entry.data.year].filter(Boolean).join(' · ')} - for {entry.data.instrumentation}</p>
+           {/* <p>{entry.data.kind} · {entry.data.year}</p> */}
              <ol>
               {entry.data.tracks.map((t) => (
-                <li>
-                  <strong>{t.title}</strong> ({t.duration}) - {t.description}
-                </li>
                 <audio controls preload="none" src={`/audio/${entry.id}.wav`} />
               ))}
             </ol>
-            <Content />
             </div>
           </section>
         );
