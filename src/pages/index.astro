@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
+import bio from '../components/bio.astro';
 import Desktop from '../components/Desktop.tsx';
 import ThemeToggle from '../components/ThemeToggle.tsx';
 import { Image } from 'astro:assets';
@@ -32,27 +33,45 @@ const person = {
   </head>
   <body>
     <DeskLayout title="landing • hi, i'm Sophie Lacson-Lambinet" description="Composer who specializes in orchestral video game music, but can do tons more! Sophie Lacson-Lambinet shares her Windows 95 desktop for visitors to peruse">   
-    <ThemeToggle client:load />
+    <noscript><style is:inline>.window[hidden] { display: block; position: static; }</style></noscript>
+      <ThemeToggle client:load />
     <main>
       <h2><a href="./sandbox" target="_blank">ORIGINAL ASTRO v0.4 HOMEPAGE</a><br/></h2>
       <Desktop client:load>
       <nav class="icons" aria-label="shortcuts">
-        {works.map((entry) => (
+        {works.filter((entry) => entry.data.featured).map((entry) => (
         <a class="icon" href={'#' + entry.id} >
-          {entry.data.coverArt && <Image src={entry.data.coverArt} alt="" width={64} />}
+          <img src={iconFor(entry.data)} alt="" width="32" height="32" />
           <span>{entry.data.title}</span>
           </a>
         ))}
+        <a class="icon" href="#about">
+  <img src="/icons/exe-about.png" alt="" width="32" height="32" />
+  <span>About.exe</span>
+</a>
+<section class="window" id="welcome" hidden>
+  <header class="titlebar" tabindex="0"><a href="#welcome">Welcome. Thanks for stopping by!</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+  <div class="body">
+    <h2>hi, I'm Sophie, and you've reached my desktop.</h2>
+    <p><i>Interactivity sits at the center of everything I do.</i><br><br> How this works: <br> <br>ONE press to open any icon. The minimize ( _ ), maximize (square) and close (x) buttons are functional, as is the task (bottom) bar. Dark/light modes available. <br><br> That's it. <br> Go forth and play. </p>
+    <label><input type="checkbox" id="welcome-again" checked /> Show this next time</label>
+  </div>
+</section>
       </nav>
+      <section class="window" id="about" hidden>
+  <header class="titlebar" tabindex="0"><a href="#about">About</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+  <div class="body">
+<bio />
+  </div>
+</section>
       {works.map((entry) => {
         return (
-          <section class="window" id={entry.id}>
+          <section class="window" id={entry.id} hidden>
             <header class="titlebar" tabindex="0"><a href={'/works/' + entry.id} target="_blank">{entry.data.title}</a><button class="minbtn">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button>
 <button class="closebtn" type="button" aria-label="close">×</button></header>
             <div class="body">
-              <img src={iconFor(entry.data)} alt="" width="32" height="32" />
-              <p>{entry.data.title} - {[labelFor[entry.data.kind], entry.data.year].filter(Boolean).join(' · ')} - for {entry.data.instrumentation}</p>
-           {/* <p>{entry.data.kind} · {entry.data.year}</p> */}
+              {entry.data.coverArt && <Image src={entry.data.coverArt} alt="" width={64} />}
+              <p>{entry.data.title} - {[labelFor[entry.data.kind], entry.data.year].filter(Boolean).join(' · ')}{entry.data.instrumentation.length > 0 && ' - for ' + entry.data.instrumentation.join(', ')}</p>
              <ol>
               {entry.data.tracks.map((t) => (
                 <audio controls preload="none" src={`/audio/${entry.id}.wav`} />

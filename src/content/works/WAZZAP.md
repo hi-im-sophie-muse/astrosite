@@ -12,6 +12,7 @@ links:
     url: https://www.youtube.com/watch?v=A3oL7v7PLac
 instrumentation:
   - a helper!!!
+featured: true  
 coverArt: ../../../public/icons/WAZZAP.png
 # desktop icon
 icon: WAZZAP

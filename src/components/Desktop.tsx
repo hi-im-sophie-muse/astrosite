@@ -11,8 +11,10 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   const startBtn = useRef<HTMLButtonElement>(null);
   const [msg, setMsg] = useState('');
   const titleOf = (id: string) => wins.find((w) => w.id === id)?.title ?? id;
-
-  
+  const CAP = 16;
+  const fullBox = useRef<HTMLDialogElement>(null);
+  const denied = useRef<HTMLDialogElement>(null);
+  const leaving = useRef(false);
 
   useEffect(() => {
     const els = [...document.querySelectorAll<HTMLElement>('.window')];
@@ -23,6 +25,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     // i'm sorry, what in the fresh hell is wrong with this language??? 
     // endcurly 3(endparenthesis) linebreak, one indent left endcurly comma startbracket endbracket endparenthesis
     // and the ever load-bearing semi-colon; else if: i will throw errors + tantrums, and blind your retinas over it 
+
     const saved = load();
     for (const [id, p] of Object.entries<{ x: number; y: number }>(saved.pos ?? {})) {
       const el = document.getElementById(id);
@@ -31,13 +34,35 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     for (const id of saved.maxed ?? []) {
       document.getElementById(id)?.classList.add('maxed');
     }
-    for (const id of [...(saved.hidden ?? []), ...(saved.closed ?? [])]) {
-      document.getElementById(id)?.setAttribute('hidden', '');
-    }
-    setHidden(saved.hidden ?? []);
-    setClosed(saved.closed ?? []);
+    const ids = els.map((el) => el.id);
+    const open: string[] = [];
+    // "welcome lines"
+    if (saved.welcome !== false) open.push('welcome');
+    const again = document.getElementById('welcome-again') as HTMLInputElement | null;
+    if (again) again.checked = saved.welcome !== false;
+        const last = ids.includes(saved.last) ? saved.last : null;
+    if (last) open.push(last);
+    const minimized: string[] = last
+      ? []
+        : (saved.hidden ?? []).filter((id: string) => ids.includes(id)).slice(-3);
+    for (const el of els) el.hidden = !open.includes(el.id);
+    for (const el of els) if (open.includes(el.id)) place(el);
+    setHidden(minimized);
+    setClosed(ids.filter((id) => !open.includes(id) && !minimized.includes(id)));
+    save({ hidden: minimized });
   }, []);
 
+    useEffect(() => {
+    const onLeave = () => {
+            if (leaving.current) return;
+      const open = [...document.querySelectorAll<HTMLElement>('.window:not([hidden]):not(.maxed)')];
+      open.sort((a, b) => Number(b.style.zIndex || 0) - Number(a.style.zIndex || 0));
+      save({ last: open[0]?.id ?? null });
+    };
+    window.addEventListener('pagehide', onLeave);
+    return () => window.removeEventListener('pagehide', onLeave);
+  }, []);
+  
 // uE2: start menu
   useEffect(() => {
   if (!startOpen) return;
@@ -59,7 +84,6 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   });
 
   const moveTo = (el: HTMLElement, x: number, y: number) => {
-    el.style.position = 'relative';
     el.style.left = x + 'px';
     el.style.top = y + 'px';
     const pageTop = el.getBoundingClientRect().top + window.scrollY;
@@ -71,8 +95,13 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     // I would fix this if it actually got deployed but why would I when I see these magical symbols (//)
   };
 
+  const place = (el: HTMLElement) => {
+    if (el.style.left) return;
+    const n = top.current % 10;
+    moveTo(el, 128 + n * 24, 24 + n * 24);
+  };
+
   const raise = (el: HTMLElement) => {
-    el.style.position = 'relative';
     el.style.zIndex = String(++top.current);
   };
   
@@ -92,7 +121,12 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   const show = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
+        if (closed.includes(id) && wins.length - closed.length >= CAP) {
+      fullBox.current?.showModal();
+      return;
+    }
     el.removeAttribute('hidden');
+    place(el);
     raise(el);
     const nextHidden = hidden.filter((x) => x !== id);
     const nextClosed = closed.filter((x) => x !== id);
@@ -129,6 +163,14 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     } catch {}
   };
 
+    const restore = () => {
+    leaving.current = true;
+    try {
+      localStorage.removeItem(KEY);
+    } catch {}
+    location.reload();
+  };
+
   const savePos = (el: HTMLElement) => {
     save({ pos: { ...load().pos, [el.id]: pos(el) } });
   };
@@ -142,6 +184,10 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
 
   return (
     <div
+      onChange={(e) => {
+        const t = e.target as HTMLInputElement;
+        if (t.id === 'welcome-again') save({ welcome: t.checked });
+      }}
       onClick={(e) => {
         const t = e.target as HTMLElement;
         const icon = (e.target as HTMLElement).closest('a.icon') as HTMLAnchorElement | null;
@@ -228,6 +274,19 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     }}
     >
       <p className="announcer" role="status" aria-live="polite">{msg}</p>
+            <dialog ref={fullBox} className="alert">
+        <p>There is not enough memory to open another window. Close one or more windows, and then try again.</p>
+        <form method="dialog">
+          <button>OK</button>
+        </form>
+      </dialog>
+            <dialog ref={denied} className="alert">
+        <p>Cannot restore the default desktop: Access is denied. Try again?</p>
+        <form method="dialog">
+          <button type="button" onClick={restore}>Retry</button>
+          <button>Cancel</button>
+        </form>
+      </dialog>
         {children}
         <nav className="taskbar" aria-label="open windows">
           <span className="start">
@@ -254,6 +313,17 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
                     </button>
                   </li>
                 ))}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStartOpen(false);
+                      denied.current?.showModal();
+                    }}
+                  >
+                    Restore Default Desktop
+                  </button>
+                </li>
               </ul>
             )}
           </span>

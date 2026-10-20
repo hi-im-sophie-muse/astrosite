@@ -19,6 +19,7 @@ coverArt: ../../../public/icons/testwork2.png
 collaborators: 
   - name: moon moon
     role: his best
+    featured: true
 ---
 i own cats, i miss my dogs
 

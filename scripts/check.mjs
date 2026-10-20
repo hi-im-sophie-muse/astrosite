@@ -20,7 +20,7 @@ for (const file of readdirSync('src/content/works').filter((f) => f.endsWith('.m
 // all of that to parse the frontmatter huh
   if (front.draft) continue;
   const id = file.replace(/\.md$/, '').toLowerCase();
-  const page = decode(readFileSync('dist/works/' + id + '/indexedDB.html', 'utf8'));
+  const page = decode(readFileSync('dist/works/' + id + '/index.html', 'utf8'));
     if (!home.includes(decode(front.title))) {
     console.error('MISSING from the home page:', file, '- the title');
     missing++;

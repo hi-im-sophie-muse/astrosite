@@ -14,6 +14,7 @@ instrumentation:
   - voice
   - headset
 coverArt: ../../../public/icons/testwork0.png        
+featured: true
 ---
 # "Break it on purpose"
 

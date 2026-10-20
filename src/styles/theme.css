@@ -165,3 +165,26 @@ body {
 
 .icons img { image-rendering: pixelated;}
 .icons span {background: var(--desktop); padding: 0 0.25rem}
+
+@media (min-width: 48rem) {
+  .window {
+    position: absolute;
+    width: min(40rem, calc(100vw - 10rem));
+    margin: 0;
+  }
+
+  .icons {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 6rem;
+  }
+}
+
+.alert {
+  background: var(--face);
+  color: var(--text);
+  border: 1px solid;
+  border-color: var(--light) var(--dark) var(--dark) var(--light);
+  max-width: 24rem;
+}
+
