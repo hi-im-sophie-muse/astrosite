@@ -172,6 +172,9 @@ body {
     width: min(40rem, calc(100vw - 10rem));
     margin: 0;
   }
+    .window .body { max-height: 70vh; overflow: auto; }
+    .window.maxed .body { max-height: none; }
+
 
   .icons {
     flex-direction: column;
@@ -228,3 +231,43 @@ body {
 .folder[data-show='details'] .files a { display: grid; grid-template-columns: 16px 1fr 4rem 5rem; }
 .folder[data-show='details'] .files .year,
 .folder[data-show='details'] .files .kind { display: inline; }
+
+/* imported from old site */
+ .tooltip { /* you can name it whatever you want, just remember it */
+  position: relative; /* so that the position of the tooltip is relative to the element and not the page */
+  /* display: inline-block; */
+ /* so that it displays inline but allows for a set width and height */
+  /* background-image: linear-gradient(to right, black 33%, darkgoldenrod 0%); */
+background-position: bottom;
+/* background-size: 5px; */
+background-repeat: repeat-x;
+text-decoration: red wavy underline; /* Wavy red line */
+}
+
+/* Text: the content of the tooltip, aka what is displayed as you hover it */
+.tooltip .tooltiptext { /* added to tooltip so it can only be used when a tooltip is present */
+  visibility: hidden; /* so that is doesn't show unless it's hovered */
+  /* width: 3px;  give it the width that you want */
+  background-color: #ffffe1; /* pick a background color */
+  color: #000; /* color of the text */
+  text-align: center; /* keeps the text centered obv */
+  padding: 3px 6px; /* prevents the text from touching the sides cause it's ugly */
+  border-radius: 1px; /* gives it round corners because no one likes ugly ass sharp corners */
+  border-color: #000;
+  border: 1px dotted;
+  position: absolute;
+  top: 100%;
+  left: 100%;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute; /* makes it so that the text position never changes */
+  z-index: 1; /* brings it over the other elements */
+}
+
+/* Show the tooltip text when you hover over the container */
+.tooltip:hover .tooltiptext,
+.tooltip:focus .tooltiptext { /* use :hover to add a hover trigger to classes */
+  visibility: visible; /* triggers the visibility while hovered, it was hidden before */
+} 
+
+  

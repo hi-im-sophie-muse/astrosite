@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
-import bio from '../components/bio.astro';
+import Bio from '../components/Bio.astro';
 import Desktop from '../components/Desktop.tsx';
 import ThemeToggle from '../components/ThemeToggle.tsx';
 import { Image } from 'astro:assets';
@@ -82,7 +82,7 @@ const links = [
         <section class="window" id="about" hidden>
           <header class="titlebar" tabindex="0"><a href="#about">About</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
           <div class="body">
-            <bio />
+            <Bio />
           </div>
         </section>
         <section class="window folder" id="my-works" hidden>
