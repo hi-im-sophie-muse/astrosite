@@ -18,6 +18,15 @@ const person = {
   jobTitle: 'Composer',
   url: Astro.site?.href,
 }
+
+const links = [
+  { label: 'List of Links', url: 'https://www.campsite.bio/hi_im_sophie.muse'},
+  { label: 'YouTube', url: 'https://www.youtube.com/@hiimsophiemuse' },
+  { label: 'Instagram', url: 'https://www.instagram.com/hi_im_sophie.muse' },
+  { label: 'TikTok', url: 'https://www.tiktok.com/@hi_im_sophie.muse'},
+  { label: 'LinkedIn', url:'https://www.linkedin.com/in/sophia-lacson-lambinet-349623230/' }
+];
+
 ---
 
 <html lang="en">
@@ -39,6 +48,18 @@ const person = {
       <h2><a href="./sandbox" target="_blank">ORIGINAL ASTRO v0.4 HOMEPAGE</a><br/></h2>
       <Desktop client:load>
       <nav class="icons" aria-label="shortcuts">
+        <a class="icon" href="#selected-works">
+          <img src="/icons/folder.png" alt="" width="32" height="32" />
+          <span>Highlighted Works</span>
+        </a>
+        <a class="icon" href="#my-works">
+          <img src="/icons/folder.png" alt="" width="32" height="32" />
+          <span>All Works</span>
+        </a>
+        <a class="icon" href="#links">
+          <img src="/icons/globe.png" alt="" width="32" height="32" />
+          <span>Find me elsewhere</span>
+        </a>
         {works.filter((entry) => entry.data.featured).map((entry) => (
         <a class="icon" href={'#' + entry.id} >
           <img src={iconFor(entry.data)} alt="" width="32" height="32" />
@@ -46,41 +67,94 @@ const person = {
           </a>
         ))}
         <a class="icon" href="#about">
-  <img src="/icons/exe-about.png" alt="" width="32" height="32" />
-  <span>About.exe</span>
-</a>
-<section class="window" id="welcome" hidden>
-  <header class="titlebar" tabindex="0"><a href="#welcome">Welcome. Thanks for stopping by!</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
-  <div class="body">
-    <h2>hi, I'm Sophie, and you've reached my desktop.</h2>
-    <p><i>Interactivity sits at the center of everything I do.</i><br><br> How this works: <br> <br>ONE press to open any icon. The minimize ( _ ), maximize (square) and close (x) buttons are functional, as is the task (bottom) bar. Dark/light modes available. <br><br> That's it. <br> Go forth and play. </p>
-    <label><input type="checkbox" id="welcome-again" checked /> Show this next time</label>
-  </div>
-</section>
+          <img src="/icons/exe-about.png" alt="" width="32" height="32" />
+          <span>About.exe</span>
+        </a>
+        <section class="window" id="welcome" hidden>
+          <header class="titlebar" tabindex="0"><a href="#welcome">Welcome! Thanks for stopping by.</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+          <div class="body">
+            <h2>hi, I'm Sophie, and you've reached my desktop.</h2>
+            <p><i>Interactivity sits at the center of everything I do.</i><br><br> How this works: <br> <br>ONE press to open any icon. The minimize ( _ ), maximize (square) and close (x) buttons are functional, as is the task (bottom) bar. Dark/light modes available. <br><br> That's it. <br> Go forth and play. </p>
+            <label><input type="checkbox" id="welcome-again" checked /> Show this next time</label>
+          </div>
+        </section>
       </nav>
-      <section class="window" id="about" hidden>
-  <header class="titlebar" tabindex="0"><a href="#about">About</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
-  <div class="body">
-<bio />
-  </div>
-</section>
-      {works.map((entry) => {
-        return (
-          <section class="window" id={entry.id} hidden>
-            <header class="titlebar" tabindex="0"><a href={'/works/' + entry.id} target="_blank">{entry.data.title}</a><button class="minbtn">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button>
-<button class="closebtn" type="button" aria-label="close">×</button></header>
+        <section class="window" id="about" hidden>
+          <header class="titlebar" tabindex="0"><a href="#about">About</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+          <div class="body">
+            <bio />
+          </div>
+        </section>
+        <section class="window folder" id="my-works" hidden>
+          <header class="titlebar" tabindex="0"><a href="#my-works">All Works</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
             <div class="body">
-              {entry.data.coverArt && <Image src={entry.data.coverArt} alt="" width={64} />}
-              <p>{entry.data.title} - {[labelFor[entry.data.kind], entry.data.year].filter(Boolean).join(' · ')}{entry.data.instrumentation.length > 0 && ' - for ' + entry.data.instrumentation.join(', ')}</p>
-             <ol>
-              {entry.data.tracks.map((t) => (
-                <audio controls preload="none" src={`/audio/${entry.id}.wav`} />
-              ))}
-            </ol>
+              <p class="views">
+                <button type="button" data-view="list">List</button>
+                <button type="button" data-view="icons">Icons</button>
+                <button type="button" data-view="details">Details</button>
+              </p>
+              <ul class="files">
+                {works.map((entry) => (
+                  <li>
+                    <a href={'/works/' + entry.id + '/'} target="_blank">
+                      <img src={iconFor(entry.data)} alt="" width="16" height="16" />
+                      <span>{entry.data.title}</span>
+                      <span class="year">{entry.data.year}</span>
+                      <span class="kind">{entry.data.kind}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p class="status">{works.length} object(s)</p>
             </div>
+        </section>
+        {works.map((entry) => {
+          return (
+            <section class="window" id={entry.id} hidden>
+              <header class="titlebar" tabindex="0"><a href={'/works/' + entry.id} target="_blank">{entry.data.title}</a><button class="minbtn">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+              <div class="body">
+                {entry.data.coverArt && <Image src={entry.data.coverArt} alt="" width={64} />}
+                <p>{entry.data.title} - {[labelFor[entry.data.kind], entry.data.year].filter(Boolean).join(' · ')}{entry.data.instrumentation.length > 0 && ' - for ' + entry.data.instrumentation.join(', ')}</p>
+              <ol>
+                {entry.data.tracks.map((t) => (
+                  <audio controls preload="none" src={`/audio/${entry.id}.wav`} />
+                ))}
+              </ol>
+              </div>
+            </section>
+          );
+        })}
+          <section class="window folder" id="selected-works" hidden>
+            <header class="titlebar" tabindex="0"><a href="#selected-works">Highlighted Works</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+              <div class="body">
+                <ul class="files">
+                  {works.filter((entry) => entry.data.selected).map((entry) => (
+                    <li>
+                      <a href={'/works/' + entry.id + '/'} target="_blank">
+                        <img src={iconFor(entry.data)} alt="" width="16" height="16" />
+                        <span>{entry.data.title}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                <p class="status">{works.length} object(s)</p>
+              </div>
           </section>
-        );
-      })}
+          <section class="window folder" id="links" hidden>
+            <header class="titlebar" tabindex="0"><a href="#links">Find me elsewhere</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+              <div class="body">  
+                <ul class="files">
+                  {links.map((link) => (
+                    <li>
+                      <a href={link.url} target="_blank" rel="noopener">
+                        <img src="/icons/globe.png" alt="" width="16" height="16" />
+                        <span>{link.label}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+          </section>
         </Desktop>
       </main>
     </DeskLayout>

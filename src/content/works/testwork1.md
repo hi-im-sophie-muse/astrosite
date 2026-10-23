@@ -15,6 +15,7 @@ instrumentation:
   - headset
 coverArt: ../../../public/icons/testwork0.png        
 featured: true
+selected: true
 ---
 # "Break it on purpose"
 

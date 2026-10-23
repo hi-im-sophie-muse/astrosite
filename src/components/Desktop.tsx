@@ -195,6 +195,11 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
           show(icon.hash.slice(1));
           return;
         }
+        const view = t.closest<HTMLElement>('[data-view]');
+        if (view) {
+          view.closest('.folder')?.setAttribute('data-show', view.dataset.view ?? 'list');
+          return;
+        }
         // const btn = (e.target as HTMLElement).closest('.minbtn');
         // const win = winOf(btn);
         // if (btn && win) hide(win.id);

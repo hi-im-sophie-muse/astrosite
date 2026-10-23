@@ -50,7 +50,7 @@
   --shadow: #808080;
   --dark: #0a0a0a;
   --title-a: #000080;
-  --title-b: #1076c0;
+  --title-b: #000080; /* #1076c0; */
   --text: #0a0a0a;
   --paper: #ffffff;
 }
@@ -61,7 +61,7 @@
   --light: #999999;
   --shadow: #000;
   --title-a: #1076c0;
-  --title-b: #000080;
+  --title-b: #1076c0; /* #000080; */
   --text: #fff;
   --paper: #555555; /* achieved mathematically and not superstitiously nor surreptitiously */
 }
@@ -187,4 +187,44 @@ body {
   border-color: var(--light) var(--dark) var(--dark) var(--light);
   max-width: 24rem;
 }
+.files {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 14rem;
+}
 
+.files a {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.15rem 0.3rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.files a:hover,
+.files a:focus-visible {
+  background: var(--title-a);
+  color: #ffffff;
+}
+
+.files img { image-rendering: pixelated; }
+
+.status {
+  margin: 0.5rem 0 0;
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--shadow);
+  font-size: 0.85rem;
+}
+.files .year,
+.files .kind { display: none; }
+
+.folder[data-show='icons'] .files { columns: auto; display: flex; flex-wrap: wrap; }
+.folder[data-show='icons'] .files a { flex-direction: column; width: 6rem; text-align: center; }
+.folder[data-show='icons'] .files img { width: 32px; height: 32px; }
+
+.folder[data-show='details'] .files { columns: auto; }
+.folder[data-show='details'] .files a { display: grid; grid-template-columns: 16px 1fr 4rem 5rem; }
+.folder[data-show='details'] .files .year,
+.folder[data-show='details'] .files .kind { display: inline; }
