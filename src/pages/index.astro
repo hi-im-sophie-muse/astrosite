@@ -70,6 +70,10 @@ const links = [
           <img src="/icons/exe-about.png" alt="" width="32" height="32" />
           <span>About.exe</span>
         </a>
+        <a class="icon" href="#help">
+          <img src="/icons/exe-help.png" alt="" width="32" height="32" />
+          <span>HELP.exe</span>
+        </a>
         <section class="window" id="welcome" hidden>
           <header class="titlebar" tabindex="0"><a href="#welcome">Welcome! Thanks for stopping by.</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
           <div class="body">
@@ -83,6 +87,30 @@ const links = [
           <header class="titlebar" tabindex="0"><a href="#about">About</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
           <div class="body">
             <Bio />
+          </div>
+        </section>
+        <section class="window" id="help" hidden>
+          <header class="titlebar" tabindex="0"><a href="#help">HELP</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+          <div class="body">
+            <p>I love the Beatles!!!<div class="rainbow-text"><span class="block-line"><span><span style="color:#ff0000">R</span><span style="color:#ff7700">A</span><span style="color:#ffee00">A</span><span style="color:#99ff00">A</span><span style="color:#26ff00">A</span><span style="color:#00ff51">H</span><span style="color:#00ffc8">H</span><span style="color:#00c3ff">H</span><span style="color:#004cff">H</span><span style="color:#2a00ff">!</span><span style="color:#9d00ff">!</span><span style="color:#ff00ea">!</span><span style="color:#ff0073">!</span></span></span></div></p>
+            <!-- I know that's not compliant I'll fix this all later -->
+            <p>KEYBOARD CONTROLS:</p>
+            <ul>
+              <li><kbd>TAB:</kbd> Move from button to button.</li>
+              <li><kbd>ENTER:</kbd> Activate the highlighted button.</li>
+              <li><kbd>F6:</kbd> Jump from window to window.</li>
+              <li>DIRECTIONAL ARROWS (<kbd>↑</kbd>, <kbd>→</kbd>, <kbd>↓</kbd>, <kbd>←</kbd>): Move the selected window. Note that the blue bar must be selected, not the content inside.</li>
+            </ul>
+            <p>SITEMAP:</p>
+            <ul>
+              <li>HELP: You are here.</li>
+              <li>Highlighted works: Short on time? Here's a few works I'd love for you to focus on! Each one focuses on a different compositional strength (though it's not exhaustive!).</li>
+              <li>All works: All of my works, at once. Click on them to learn more - where to listen, instrumentation, release date, inspiration, etc. Unlike a true sitemap, I am not about to list all 80+ of these links in this small space.</li>
+              <li>Find me elsewhere: Contact me through your favorite platform! Email upon request.</li>
+              <li>About: What I'm about. A biography.</li>
+              <li>Interactive Artist's Statement: Brand demonstration + more about my creative vision</li>
+              <li>404: Have you consulted HELP.exe ? (page not found - check for typos?)</li>
+            </ul>
           </div>
         </section>
         <section class="window folder" id="my-works" hidden>

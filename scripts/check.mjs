@@ -1,6 +1,7 @@
 // scripts/check.mjs
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { parse } from 'yaml';
+
 
 const decode = (s) =>
   s
@@ -30,6 +31,14 @@ for (const file of readdirSync('src/content/works').filter((f) => f.endsWith('.m
       console.error('MISSING from the home page:', file, '-', track.title);
       missing++;
     }
+  }
+}
+
+const pictures = home.split('src="/icons/').slice(1).map((part) => part.split('"')[0]);
+for (const name of new Set(pictures)) {
+  if (!existsSync('public/icons/' + name)) {
+    console.error('MISSING picture: public/icons/' + name);
+    missing++;
   }
 }
 

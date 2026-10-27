@@ -255,13 +255,13 @@ text-decoration: red wavy underline; /* Wavy red line */
   border-radius: 1px; /* gives it round corners because no one likes ugly ass sharp corners */
   border-color: #000;
   border: 1px dotted;
-  position: absolute;
-  top: 100%;
-  left: 100%;
+  white-space: nowrap;
 
   /* Position the tooltip text - see examples below! */
   position: absolute; /* makes it so that the text position never changes */
   z-index: 1; /* brings it over the other elements */
+  top: 100%;
+  left: 100%;
 }
 
 /* Show the tooltip text when you hover over the container */

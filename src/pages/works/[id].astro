@@ -60,7 +60,18 @@ const schema = {
             <p>for {entry.data.instrumentation.join(', ')}</p>
           )}
       <Content />
-      <p><a href="/">← back</a></p>
+      <h2>Credits:</h2>
+      <ul class="credits">
+        <li>{entry.data.role}: Sophie Lacson-Lambinet</li>
+        {entry.data.client && <li>For {entry.data.client}</li>}
+        {entry.data.collaborators.map((c) => (
+          <li>
+            {c.role && c.role + ': '}
+            {c.url ? <a href={c.url} target="_blank" rel="noopener">{c.name}</a> : c.name}
+          </li>
+        ))}
+      </ul>
+      <p><a href="/">back</a></p>
     </main>
     </DeskLayout>
   </body>
