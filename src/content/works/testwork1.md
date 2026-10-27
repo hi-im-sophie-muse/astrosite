@@ -7,6 +7,7 @@ tracks:
          - title: "a papercut"
            duration: "4:33"
            description: "On the side of the pointer finger of your dominant hand. This will cause you to overcompensate and consequently open a second papercut on the thumb of the same hand."
+           audio: /audio/testwork1/testwork1.mp3
 links:
   - label: full release on YouTube
     url: https://youtube.com/watch?v=dQw4w9WgXcQ
@@ -16,6 +17,7 @@ instrumentation:
 coverArt: ../../../public/icons/testwork0.png        
 featured: true
 selected: true
+
 ---
 # "Break it on purpose"
 

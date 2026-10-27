@@ -6,7 +6,8 @@ summary: "Who invited moon moon? Character Limit Character Limit Character Minim
 tracks:
          - title: "VVolf"
            duration: "0:01"
-           description: "Something something awoooooooooooooooooooooooooooooooooooo" 
+           description: "Something something awoooooooooooooooooooooooooooooooooooo"
+           audio: /audio/testwork2/testwork2.mp3
          - title: "She Wolf"
            duration: "3:08"
            description: "There's a She Wolf in your clawset, open up and set 'er free (AA wOOO)"
@@ -20,6 +21,9 @@ collaborators:
   - name: moon moon
     role: his best
     featured: true
+audio: /audio/testwork2/testwork2.mp3
+featured: true
+
 ---
 i own cats, i miss my dogs
 

@@ -4,7 +4,7 @@ kind: "single"
 year: 2026
 summary: "Nothing. Sitting here, watching the game. Yo, pick up the phone! a.k.a making sense of this site right now"
 tracks:
-         - title: "Watching the game, having a [redacted]. True."
+         - title: "Watching the game, having a [redacted]. True. Click titlebar for expanded info."
            duration: "8:30"
            description: "WAZZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP"
 links:
@@ -13,10 +13,11 @@ links:
 instrumentation:
   - a helper!!!
 featured: true  
-coverArt: ../../../public/icons/WAZZAP.png
 # desktop icon
-icon: WAZZAP
+coverArt: ../../../public/icons/WAZZAP.png
 # minicon
+icon: WAZZAP
+
 ---
 
 # TODO

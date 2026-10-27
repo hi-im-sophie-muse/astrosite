@@ -35,7 +35,7 @@ const schema = {
   </head>
   <body>
     <DeskLayout title={entry.data.title} description={entry.data.summary.trim()} image={entry.data.coverArt?.src} imageAlt={"Cover Art for" + entry.data.title} schema={schema}>
-    <main>
+    <main class="sheet">
       <h1>{entry.data.title}</h1>
       <p>{entry.data.kind} · {entry.data.year}</p>
              {entry.data.coverArt && (

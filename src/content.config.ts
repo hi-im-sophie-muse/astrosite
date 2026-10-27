@@ -39,7 +39,8 @@ const works = defineCollection({
         z.object({
           title: z.string(),
           duration: z.string().regex(/^\d+:\d{2}$/),
-          description: z.string().min(40),
+          description: z.string().min(40),    
+          audio: z.string().optional(),
         }),
       )
       .default([]),
@@ -55,6 +56,7 @@ const works = defineCollection({
     collaborators: z.array(z.object({ name: z.string(), role: z.string().optional(), url: z.url().optional() })).default([]),
     icon: z.string().optional(),
     selected: z.boolean().default(false),
+
   }),
 });
 

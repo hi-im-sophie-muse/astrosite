@@ -10,11 +10,14 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   const [startOpen, setStartOpen] = useState(false);
   const startBtn = useRef<HTMLButtonElement>(null);
   const [msg, setMsg] = useState('');
+  const [playing, setPlaying] = useState('');
   const titleOf = (id: string) => wins.find((w) => w.id === id)?.title ?? id;
   const CAP = 16;
+  const wide = () => matchMedia('(min-width: 48rem)').matches;
   const fullBox = useRef<HTMLDialogElement>(null);
   const denied = useRef<HTMLDialogElement>(null);
   const leaving = useRef(false);
+  const party = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     const els = [...document.querySelectorAll<HTMLElement>('.window')];
@@ -29,7 +32,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     const saved = load();
     for (const [id, p] of Object.entries<{ x: number; y: number }>(saved.pos ?? {})) {
       const el = document.getElementById(id);
-      if (el) moveTo(el, p.x, p.y);
+      if (el) moveTo(el, Math.min(p.x, innerWidth - 160), Math.min(p.y, innerHeight - 120));
     }
     for (const id of saved.maxed ?? []) {
       document.getElementById(id)?.classList.add('maxed');
@@ -128,6 +131,10 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     el.removeAttribute('hidden');
     place(el);
     raise(el);
+        if (!wide()) {
+      document.querySelector('.icons')?.after(el);
+      el.scrollIntoView();
+    }
     const nextHidden = hidden.filter((x) => x !== id);
     const nextClosed = closed.filter((x) => x !== id);
     setHidden(nextHidden);
@@ -188,6 +195,17 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         const t = e.target as HTMLInputElement;
         if (t.id === 'welcome-again') save({ welcome: t.checked });
       }}
+      onPlayCapture={(e) => {
+        const track = e.target as HTMLAudioElement;
+        for (const other of document.querySelectorAll('audio')) {
+          if (other !==track) other.pause();  
+          setPlaying(track.dataset.title ?? '');
+      }
+      }}
+      onPauseCapture={() => {
+        const still = [...document.querySelectorAll('audio')].some((a) => !a.paused);
+        if (!still) setPlaying ('');
+      }}
       onClick={(e) => {
         const t = e.target as HTMLElement;
         const icon = (e.target as HTMLElement).closest('a.icon') as HTMLAnchorElement | null;
@@ -232,6 +250,11 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
           if (d) {
           home.current.set(d.el, pos(d.el));
           savePos(d.el);
+        const gone = [...document.querySelectorAll<HTMLElement>('.window:not([hidden])')].filter((w) => {
+          const r = w.getBoundingClientRect();
+          return r.left >= innerWidth || r.top >= innerHeight;
+        });
+        if (gone.length === 5) party.current?.showModal();
         }
         drag.current = null;
       }}
@@ -292,6 +315,12 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
           <button>Cancel</button>
         </form>
       </dialog>
+            <dialog ref={party} className="alert">
+        <p>YOU'RE WINNER !</p><p style="text-align: center;">🏆</p>
+        <form method="dialog">
+          <button>OK</button><button><a href="https://youtu.be/feNk7qsU2lY?si=vluIFYKCagFMDGYJ&t=54" target="_blank">NEVER LOSE</a></button>
+        </form>
+      </dialog>
         {children}
         <nav className="taskbar" aria-label="open windows">
           <span className="start">
@@ -342,6 +371,11 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
               {w.title}
             </button>
           ))}
+          {playing && (
+            <span className="nowplaying" role="status">
+              <span>♪ {playing}</span>
+            </span>
+          )} {/* Interesting choice of placement but okay */}
         </nav>
     </div>
   );

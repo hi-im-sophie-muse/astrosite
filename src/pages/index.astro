@@ -111,6 +111,12 @@ const links = [
               <li>Interactive Artist's Statement: Brand demonstration + more about my creative vision</li>
               <li>404: Have you consulted HELP.exe ? (page not found - check for typos?)</li>
             </ul>
+            <p>EXTRAS:</p>
+            <ul>
+              <li>Theme button, bottom right: Toggle between light (classic) or dark (retina friendly).</li>
+              <li>Start button, bottom left: List view of links from desktop icons.</li>
+              <li>Task bar, grey bar: Keeps track of opened and minimized windows. Using the x button clears them from the screen and task bar. </li>
+            </ul>
           </div>
         </section>
         <section class="window folder" id="my-works" hidden>
@@ -143,11 +149,14 @@ const links = [
               <div class="body">
                 {entry.data.coverArt && <Image src={entry.data.coverArt} alt="" width={64} />}
                 <p>{entry.data.title} - {[labelFor[entry.data.kind], entry.data.year].filter(Boolean).join(' · ')}{entry.data.instrumentation.length > 0 && ' - for ' + entry.data.instrumentation.join(', ')}</p>
-              <ol>
-                {entry.data.tracks.map((t) => (
-                  <audio controls preload="none" src={`/audio/${entry.id}.wav`} />
-                ))}
-              </ol>
+                <ol class="tracks">
+                  {entry.data.tracks.map((t) => (
+                    <li>
+                      {t.title} ({t.duration})
+                      {t.audio && <audio controls preload="none" src={t.audio} data-title={t.title} />}
+                    </li>
+                      ))}
+                </ol>
               </div>
             </section>
           );

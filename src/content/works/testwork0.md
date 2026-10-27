@@ -7,6 +7,7 @@ tracks:
          - title: "eeeeee"
            duration: "98:76"
            description: "Let go, or suffer, or both. All of it at once to hit the character minimum"
+           audio: /audio/testwork0/testwork0.mp3
 links:
   - label: full release on YouTube
     url: https://youtube.com/watch?v=dQw4w9WgXcQ
@@ -15,6 +16,7 @@ instrumentation:
   - megaphone
 coverArt: ./testwork0.jpg
 featured: true
+
 ---
 
 # I am a fish out of water

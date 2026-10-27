@@ -114,20 +114,21 @@ body {
   background: linear-gradient(90deg, var(--title-a), var(--title-b));
   color: #ffffff;
   padding: 0.3rem 0.6rem;
-  touch-action: none;
   user-select: none;
 }
 
 .titlebar h2 { margin: 0; font-size: 1rem; }
 .titlebar a { color: #ffffff; text-decoration: underline; margin: 0 auto 0 0;}
 .titlebar a[href^='/works/']::after { content: ' (click for more)'; }
+.titlebar button { font-family: inherit; }
+
 
 /* :root[data-theme='night'] a:link { color: #1076c0; } 
 :root[data-theme='night'] a:visited { color: #9076c0; } 
 :root[data-theme='night'] a:focus { color: #ff0000; } 
 :root[data-theme='night'] a:hover { color: #900080; } */
 
-.body { background: var(--paper); padding: 1rem; }
+.body { background: var(--paper);  padding: 1rem 1rem 4rem; }
 
 .themebtn {
   position:fixed;
@@ -140,9 +141,27 @@ body {
   font-family: inherit;
 }
 
-.titlebar button {
-  font-family: inherit;
+.taskbar > button {
+  flex: 0 1 10rem;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
+/* > = children // not grandchildren */
+
+.titlebar button,
+.taskbar button {
+  background: var(--face);
+  color: var(--text);
+  border: 2px outset var(--face);
+}
+
+.titlebar button:active,
+.taskbar button:active {
+  border-style: inset;
+}
+
 
 .icons { 
   display: flex;
@@ -165,23 +184,6 @@ body {
 
 .icons img { image-rendering: pixelated;}
 .icons span {background: var(--desktop); padding: 0 0.25rem}
-
-@media (min-width: 48rem) {
-  .window {
-    position: absolute;
-    width: min(40rem, calc(100vw - 10rem));
-    margin: 0;
-  }
-    .window .body { max-height: 70vh; overflow: auto; }
-    .window.maxed .body { max-height: none; }
-
-
-  .icons {
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 6rem;
-  }
-}
 
 .alert {
   background: var(--face);
@@ -232,7 +234,68 @@ body {
 .folder[data-show='details'] .files .year,
 .folder[data-show='details'] .files .kind { display: inline; }
 
-/* imported from old site */
+.nowplaying {
+  margin-left: auto;
+  align-self: center;
+  width: 12rem;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.nowplaying span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll 8s linear infinite;
+}
+
+@media (min-width: 48rem) {
+  .window {
+    position: absolute;
+    width: min(40rem, calc(100vw - 10rem));
+    margin: 0;
+  }
+    .window .body { max-height: 70vh; overflow: auto; }
+    .window.maxed .body { max-height: none; }
+  .icons {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 6rem;
+  }
+  .titlebar { 
+    touch-action: none; 
+  }
+}
+
+@keyframes scroll {
+  to { transform: translateX(-100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nowplaying span { animation: none; padding-left: 0; }
+}
+
+@media (pointer: coarse) {
+  .titlebar button {
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+}
+
+.sheet {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  background: var(--paper);
+  overflow-wrap: anywhere;
+}
+
+.sheet img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* imported from old site, word vomit */
  .tooltip { /* you can name it whatever you want, just remember it */
   position: relative; /* so that the position of the tooltip is relative to the element and not the page */
   /* display: inline-block; */
@@ -270,4 +333,4 @@ text-decoration: red wavy underline; /* Wavy red line */
   visibility: visible; /* triggers the visibility while hovered, it was hidden before */
 } 
 
-  
+
