@@ -56,6 +56,7 @@ const works = defineCollection({
     collaborators: z.array(z.object({ name: z.string(), role: z.string().optional(), url: z.url().optional() })).default([]),
     icon: z.string().optional(),
     selected: z.boolean().default(false),
+    license: z.string().optional(),
 
   }),
 });

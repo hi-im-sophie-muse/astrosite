@@ -28,3 +28,7 @@ old/
 
 # audio
 *.wav
+
+# test leftovers
+test-results/
+playwright-report/

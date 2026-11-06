@@ -34,6 +34,14 @@ for (const file of readdirSync('src/content/works').filter((f) => f.endsWith('.m
   }
 }
 
+for (const file of ['index.html', ...readdirSync('dist/works').map((id) => 'works/' + id + '/index.html')]) {
+  const html = readFileSync('dist/' + file, 'utf8');
+  if (html.split('<html').length > 2) {
+    console.error('TWO COATS: dist/' + file + ' has more than one <html>');
+    missing++;
+  }
+}
+
 const pictures = home.split('src="/icons/').slice(1).map((part) => part.split('"')[0]);
 for (const name of new Set(pictures)) {
   if (!existsSync('public/icons/' + name)) {

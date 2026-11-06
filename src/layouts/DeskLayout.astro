@@ -8,16 +8,16 @@ const { title, description, image, schema } = Astro.props;
 
 <html lang="en">
 <head>
-    <SiteHead title={title} description={description}/>
-    <meta charset="utf-8" />
-    <title>{title}</title>
+    <SiteHead title={title} description={description} image={image} schema={schema} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
  <script is:inline>
-      try {
-        const saved = localStorage.getItem('desktop-theme');
-        if (saved) document.documentElement.dataset.theme = saved;
-      } catch {}
-    </script>
+  try {
+    for (const name of ['theme', 'sound', 'motion']) {
+    const saved = localStorage.getItem('desktop-' + name);
+    if (saved) document.documentElement.dataset[name] = saved;
+    }
+    } catch {}
+  </script>
 </head>
 <body>
     <slot />

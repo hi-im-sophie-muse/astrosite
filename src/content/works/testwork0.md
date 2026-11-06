@@ -15,8 +15,8 @@ instrumentation:
   - voice
   - megaphone
 coverArt: ./testwork0.jpg
-featured: true
-
+featured: false
+draft: true
 ---
 
 # I am a fish out of water

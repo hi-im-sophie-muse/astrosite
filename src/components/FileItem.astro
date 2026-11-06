@@ -1,0 +1,13 @@
+---
+import { iconFor } from '../lib/kinds.ts';
+
+const { entry } = Astro.props;
+---
+<li data-tags={entry.data.instrumentation.join('|').toLowerCase()}>
+  <a href={'/works/' + entry.id + '/'} target="_blank">
+    <img src={iconFor(entry.data)} alt="" width="16" height="16" />
+    <span>{entry.data.title}</span>
+    <span class="year">{entry.data.year}</span>
+    <span class="kind">{entry.data.kind}</span>
+  </a>
+</li>

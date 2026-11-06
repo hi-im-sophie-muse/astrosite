@@ -12,12 +12,12 @@ links:
     url: https://www.youtube.com/watch?v=A3oL7v7PLac
 instrumentation:
   - a helper!!!
-featured: true  
+# featured: true  
 # desktop icon
 coverArt: ../../../public/icons/WAZZAP.png
 # minicon
 icon: WAZZAP
-
+draft: true
 ---
 
 # TODO

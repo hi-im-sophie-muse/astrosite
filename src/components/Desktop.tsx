@@ -135,6 +135,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
       document.querySelector('.icons')?.after(el);
       el.scrollIntoView();
     }
+    el.querySelector<HTMLElement>('.titlebar')?.focus();
     const nextHidden = hidden.filter((x) => x !== id);
     const nextClosed = closed.filter((x) => x !== id);
     setHidden(nextHidden);
@@ -182,6 +183,14 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     save({ pos: { ...load().pos, [el.id]: pos(el) } });
   };
 
+  const checkParty = () => {
+    const gone = [...document.querySelectorAll<HTMLElement>('.window:not([hidden])')].filter((w) => {
+      const r = w.getBoundingClientRect();
+      return r.left >= innerWidth || r.top >= innerHeight;
+    });
+    if (gone.length === 5) party.current?.showModal();
+  };
+  
   const NUDGE: Record<string, [number, number]> = {
     ArrowLeft: [-8, 0],
     ArrowRight: [8 , 0],
@@ -210,6 +219,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         const t = e.target as HTMLElement;
         const icon = (e.target as HTMLElement).closest('a.icon') as HTMLAnchorElement | null;
         if (icon) {
+          e.preventDefault();
           show(icon.hash.slice(1));
           return;
         }
@@ -246,15 +256,11 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         if (d) moveTo(d.el, e.clientX - d.dx, e.clientY - d.dy);
       }}
       onPointerUp={() => {
-        const d = drag.current; 
-          if (d) {
+        const d = drag.current;
+        if (d) {
           home.current.set(d.el, pos(d.el));
           savePos(d.el);
-        const gone = [...document.querySelectorAll<HTMLElement>('.window:not([hidden])')].filter((w) => {
-          const r = w.getBoundingClientRect();
-          return r.left >= innerWidth || r.top >= innerHeight;
-        });
-        if (gone.length === 5) party.current?.showModal();
+          checkParty();
         }
         drag.current = null;
       }}
@@ -280,11 +286,11 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
                   '.window:not([hidden]) .titlebar',
               ),
             ];
-  const current = (e.target as HTMLElement).closest?.('.titlebar');
-  const i = bars.indexOf(current as HTMLElement);
-  bars[(i + 1) % bars.length]?.focus();
-  return;
-}
+            const current = (e.target as HTMLElement).closest?.('.titlebar');
+            const i = bars.indexOf(current as HTMLElement);
+              bars[(i + 1) % bars.length]?.focus();
+              return;
+          }
       const bar = (e.target as HTMLElement).closest?.('.titlebar');
       const win = winOf(bar);
       if (!bar || !win) return;
@@ -294,7 +300,10 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         const { x, y } = pos(win);
         moveTo(win, x + dx, y + dy); 
       } else if (e.key === 'Enter') {
+        if (e.target === bar) e.preventDefault();
         home.current.set(win, pos(win));
+        savePos(win);
+        checkParty();
       } else if (e.key === 'Escape') {
         const h = home.current.get(win);
         if (h) moveTo(win, h.x, h.y);

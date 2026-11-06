@@ -1,0 +1,15 @@
+---
+import DeskLayout from '../layouts/DeskLayout.astro';
+---
+
+<DeskLayout title="404 • file not found" description="This page isn't here. Check for typos or go to the desktop.">
+  <main class="sheet">
+<!--    <div class="particles" aria-hidden="true">
+      {Array.from({ length: 12 }, (_, i) => <span style={'--i: ' + i} />)}
+    </div>-->
+    <img src="/404.png" alt="Win95 paint mockup with a 404 page scribbled in it" width="320" height="240" />
+    <h1>404: file not found</h1>
+    <p>Oh no! Have you consulted HELP.exe or checked for typos?</p>
+    <p><a href="/">back to the desktop</a></p>
+  </main>
+</DeskLayout>

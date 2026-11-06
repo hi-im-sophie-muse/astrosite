@@ -22,7 +22,8 @@ collaborators:
     role: his best
     featured: true
 audio: /audio/testwork2/testwork2.mp3
-featured: true
+featured: false
+draft: true
 
 ---
 i own cats, i miss my dogs

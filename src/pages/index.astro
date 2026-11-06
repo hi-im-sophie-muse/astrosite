@@ -3,10 +3,13 @@ import { getCollection } from 'astro:content';
 
 import Bio from '../components/Bio.astro';
 import Desktop from '../components/Desktop.tsx';
-import ThemeToggle from '../components/ThemeToggle.tsx';
 import { Image } from 'astro:assets';
 import DeskLayout from '../layouts/DeskLayout.astro';
 import { labelFor, iconFor } from '../lib/kinds.ts';
+import FileItem from '../components/FileItem.astro';
+import Settings from '../components/Settings.tsx';
+// import ArtistsStatement from '../components/ArtistsStatement.astro';
+import Player from '../components/Player.tsx';
 
 const works = await getCollection('works', ({ data }) => !data.draft);
 works.sort((a,b) => a.data.order - b.data.order || b.data.year - a.data.year);
@@ -27,173 +30,173 @@ const links = [
   { label: 'LinkedIn', url:'https://www.linkedin.com/in/sophia-lacson-lambinet-349623230/' }
 ];
 
----
+const playlist = works.flatMap((w) =>
+  w.data.tracks
+    .filter((t) => t.audio)
+    .map((t) => ({ title: t.title, src: t.audio!, work: w.data.title })),
+);
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>
-  try {
-    const saved = localStorage.getItem('desktop-theme');
-    if (saved) document.documentElement.dataset.theme = saved;
-  } catch {}
-</script>
-  </head>
-  <body>
-    <DeskLayout title="landing • hi, i'm Sophie Lacson-Lambinet" description="Composer who specializes in orchestral video game music, but can do tons more! Sophie Lacson-Lambinet shares her Windows 95 desktop for visitors to peruse">   
-    <noscript><style is:inline>.window[hidden] { display: block; position: static; }</style></noscript>
-      <ThemeToggle client:load />
-    <main>
-      <h2><a href="./sandbox" target="_blank">ORIGINAL ASTRO v0.4 HOMEPAGE</a><br/></h2>
-      <Desktop client:load>
-      <nav class="icons" aria-label="shortcuts">
-        <a class="icon" href="#selected-works">
-          <img src="/icons/folder.png" alt="" width="32" height="32" />
-          <span>Highlighted Works</span>
-        </a>
-        <a class="icon" href="#my-works">
-          <img src="/icons/folder.png" alt="" width="32" height="32" />
-          <span>All Works</span>
-        </a>
-        <a class="icon" href="#links">
-          <img src="/icons/globe.png" alt="" width="32" height="32" />
-          <span>Find me elsewhere</span>
-        </a>
-        {works.filter((entry) => entry.data.featured).map((entry) => (
-        <a class="icon" href={'#' + entry.id} >
-          <img src={iconFor(entry.data)} alt="" width="32" height="32" />
-          <span>{entry.data.title}</span>
-          </a>
-        ))}
-        <a class="icon" href="#about">
-          <img src="/icons/exe-about.png" alt="" width="32" height="32" />
-          <span>About.exe</span>
-        </a>
-        <a class="icon" href="#help">
-          <img src="/icons/exe-help.png" alt="" width="32" height="32" />
-          <span>HELP.exe</span>
-        </a>
-        <section class="window" id="welcome" hidden>
-          <header class="titlebar" tabindex="0"><a href="#welcome">Welcome! Thanks for stopping by.</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+---
+<DeskLayout title="landing • hi, i'm Sophie Lacson-Lambinet" description="Composer who specializes in orchestral video game music, but can do tons more! Sophie Lacson-Lambinet shares her Windows 95 desktop for visitors to peruse" schema={person}>   
+<noscript><style is:inline>.window[hidden] { display: block; position: static; }</style></noscript>
+<main>
+<!--  <h2><a href="./sandbox" target="_blank">ORIGINAL ASTRO v0.4 HOMEPAGE</a><br/></h2> rest in peace -->
+  <Desktop client:load>
+  <nav class="icons" aria-label="shortcuts">
+    <a class="icon" href="#selected-works">
+      <img src="/icons/folder.png" alt="" width="32" height="32" />
+      <span>Highlighted Works</span>
+    </a>
+    <a class="icon" href="#my-works">
+      <img src="/icons/folder.png" alt="" width="32" height="32" />
+      <span>All Works</span>
+    </a>
+    <a class="icon" href="#links">
+      <img src="/icons/globe.png" alt="" width="32" height="32" />
+      <span>Find me elsewhere</span>
+    </a>
+    {works.filter((entry) => entry.data.featured).map((entry) => (
+    <a class="icon" href={'#' + entry.id}>
+      <img src={iconFor(entry.data)} alt="" width="32" height="32" />
+      <span>{entry.data.title}</span>
+      </a>
+    ))}
+    <a class="icon" href="#about">
+      <img src="/icons/exe-about.png" alt="" width="32" height="32" />
+      <span>About.exe</span>
+    </a>
+    <a class="icon" href="#help">
+      <img src="/icons/exe-help.png" alt="" width="32" height="32" />
+      <span>HELP.exe</span>
+    </a>
+    <a class="icon" href="#settings">
+      <img src="/icons/exe-settings.png" alt="" width="32" height="32" />
+      <span>Settings.exe</span>
+    </a>
+    <a class="icon" href="#player">
+      <img src="/icons/exe-player.png" alt="" width="32" height="32" />
+      <span>Sophamp.exe</span>
+    </a>
+    <section class="window" id="welcome" hidden>
+      <header class="titlebar" tabindex="0"><a href="#welcome">Welcome! Thanks for stopping by.</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+      <div class="body">
+        <h2>hi, I'm Sophie, and you've reached my desktop.</h2>
+        <p><i>Interactivity sits at the center of everything I do.</i><br><br> How this works: <br> <br>ONE press to open any icon. The minimize ( _ ), maximize (square) and close (x) buttons are functional, as is the task (bottom) bar. Dark/light modes available in Settings.exe. <br><br> That's it. <br> Go forth and play. </p>
+        <label><input type="checkbox" id="welcome-again" checked /> Show this next time</label>
+      </div>
+    </section>
+  </nav>
+    <section class="window" id="about" hidden>
+      <header class="titlebar" tabindex="0"><a href="#about">About</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+      <div class="body">
+        <Bio />
+      </div>
+    </section>
+    <section class="window" id="help" hidden>
+      <header class="titlebar" tabindex="0"><a href="#help">HELP</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+      <div class="body">
+        <p>I love the Beatles!!!<div class="rainbow-text"><span class="block-line"><span><span style="color:#ff0000">R</span><span style="color:#ff7700">A</span><span style="color:#ffee00">A</span><span style="color:#99ff00">A</span><span style="color:#26ff00">A</span><span style="color:#00ff51">H</span><span style="color:#00ffc8">H</span><span style="color:#00c3ff">H</span><span style="color:#004cff">H</span><span style="color:#2a00ff">!</span><span style="color:#9d00ff">!</span><span style="color:#ff00ea">!</span><span style="color:#ff0073">!</span></span></span></div></p>
+        <!-- I know that's not compliant I'll fix this all later -->
+        <p>KEYBOARD CONTROLS:</p>
+        <ul>
+          <li><kbd>TAB:</kbd> Move from button to button.</li>
+          <li><kbd>ENTER:</kbd> Activate the highlighted button.</li>
+          <li><kbd>F6:</kbd> Jump from window to window.</li>
+          <li>DIRECTIONAL ARROWS (<kbd>↑</kbd>, <kbd>→</kbd>, <kbd>↓</kbd>, <kbd>←</kbd>): Move the selected window. Note that the blue bar must be selected, not the content inside.</li>
+        </ul>
+        <p>SITEMAP:</p>
+        <ul>
+          <li>HELP: You are here.</li>
+          <li>Highlighted works: Short on time? Here's a few works I'd love for you to focus on! Each one focuses on a different compositional strength (though it's not exhaustive!).</li>
+          <li>All works: All of my works, at once. Click on them to learn more - where to listen, instrumentation, release date, inspiration, etc. Unlike a true sitemap, I am not about to list all 80+ of these links in this small space.</li>
+          <li>Find me elsewhere: Contact me through your favorite platform! Email upon request.</li>
+          <li>About: What I'm about. A biography.</li>
+          <li>Interactive Artist's Statement: Brand demonstration + more about my creative vision</li>
+          <li>Settings: Change the theme, sound, and motion settings for this site.</li>
+          <li>404: Have you consulted HELP.exe ? (page not found - check for typos?)</li>
+        </ul>
+        <p>EXTRAS:</p>
+        <ul>
+          <li>Start button, bottom left: List view of links from desktop icons.</li>
+          <li>Task bar, grey bar: Keeps track of opened and minimized windows. Using the x button clears them from the screen and task bar. </li>
+        </ul>
+      </div>
+    </section>
+    <section class="window" id="settings" hidden>
+      <header class="titlebar" tabindex="0"><a href="#settings">Settings</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+      <div class="body">
+        <Settings client:load />
+      </div>
+    </section>
+          <section class="window" id="player" hidden>
+          <header class="titlebar" tabindex="0"><a href="#player">Sophamp</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
           <div class="body">
-            <h2>hi, I'm Sophie, and you've reached my desktop.</h2>
-            <p><i>Interactivity sits at the center of everything I do.</i><br><br> How this works: <br> <br>ONE press to open any icon. The minimize ( _ ), maximize (square) and close (x) buttons are functional, as is the task (bottom) bar. Dark/light modes available. <br><br> That's it. <br> Go forth and play. </p>
-            <label><input type="checkbox" id="welcome-again" checked /> Show this next time</label>
-          </div>
-        </section>
-      </nav>
-        <section class="window" id="about" hidden>
-          <header class="titlebar" tabindex="0"><a href="#about">About</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
-          <div class="body">
-            <Bio />
-          </div>
-        </section>
-        <section class="window" id="help" hidden>
-          <header class="titlebar" tabindex="0"><a href="#help">HELP</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
-          <div class="body">
-            <p>I love the Beatles!!!<div class="rainbow-text"><span class="block-line"><span><span style="color:#ff0000">R</span><span style="color:#ff7700">A</span><span style="color:#ffee00">A</span><span style="color:#99ff00">A</span><span style="color:#26ff00">A</span><span style="color:#00ff51">H</span><span style="color:#00ffc8">H</span><span style="color:#00c3ff">H</span><span style="color:#004cff">H</span><span style="color:#2a00ff">!</span><span style="color:#9d00ff">!</span><span style="color:#ff00ea">!</span><span style="color:#ff0073">!</span></span></span></div></p>
-            <!-- I know that's not compliant I'll fix this all later -->
-            <p>KEYBOARD CONTROLS:</p>
-            <ul>
-              <li><kbd>TAB:</kbd> Move from button to button.</li>
-              <li><kbd>ENTER:</kbd> Activate the highlighted button.</li>
-              <li><kbd>F6:</kbd> Jump from window to window.</li>
-              <li>DIRECTIONAL ARROWS (<kbd>↑</kbd>, <kbd>→</kbd>, <kbd>↓</kbd>, <kbd>←</kbd>): Move the selected window. Note that the blue bar must be selected, not the content inside.</li>
-            </ul>
-            <p>SITEMAP:</p>
-            <ul>
-              <li>HELP: You are here.</li>
-              <li>Highlighted works: Short on time? Here's a few works I'd love for you to focus on! Each one focuses on a different compositional strength (though it's not exhaustive!).</li>
-              <li>All works: All of my works, at once. Click on them to learn more - where to listen, instrumentation, release date, inspiration, etc. Unlike a true sitemap, I am not about to list all 80+ of these links in this small space.</li>
-              <li>Find me elsewhere: Contact me through your favorite platform! Email upon request.</li>
-              <li>About: What I'm about. A biography.</li>
-              <li>Interactive Artist's Statement: Brand demonstration + more about my creative vision</li>
-              <li>404: Have you consulted HELP.exe ? (page not found - check for typos?)</li>
-            </ul>
-            <p>EXTRAS:</p>
-            <ul>
-              <li>Theme button, bottom right: Toggle between light (classic) or dark (retina friendly).</li>
-              <li>Start button, bottom left: List view of links from desktop icons.</li>
-              <li>Task bar, grey bar: Keeps track of opened and minimized windows. Using the x button clears them from the screen and task bar. </li>
-            </ul>
+            <Player client:load tracks={playlist} />
           </div>
         </section>
         <section class="window folder" id="my-works" hidden>
           <header class="titlebar" tabindex="0"><a href="#my-works">All Works</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
             <div class="body">
-              <p class="views">
-                <button type="button" data-view="list">List</button>
-                <button type="button" data-view="icons">Icons</button>
-                <button type="button" data-view="details">Details</button>
-              </p>
-              <ul class="files">
-                {works.map((entry) => (
-                  <li>
-                    <a href={'/works/' + entry.id + '/'} target="_blank">
-                      <img src={iconFor(entry.data)} alt="" width="16" height="16" />
-                      <span>{entry.data.title}</span>
-                      <span class="year">{entry.data.year}</span>
-                      <span class="kind">{entry.data.kind}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <p class="status">{works.length} object(s)</p>
-            </div>
+            <p class="views">
+              <button type="button" data-view="list">List</button>
+              <button type="button" data-view="icons">Icons</button>
+              <button type="button" data-view="details">Details</button>
+            </p>
+            <ul class="files">
+              {works.map((entry) => <FileItem entry={entry} />)}
+            </ul>
+            <p class="status">{works.length} object(s)</p>
+          </div>
+    </section>
+    {works.map((entry) => {
+      return (
+        <section class="window" id={entry.id} hidden>
+          <header class="titlebar" tabindex="0"><a href={'/works/' + entry.id} target="_blank">{entry.data.title}</a><button class="minbtn">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+          <div class="body">
+            {entry.data.coverArt && <Image src={entry.data.coverArt} alt="" width={64} />}
+            <p>{entry.data.title} - {[labelFor[entry.data.kind], entry.data.year].filter(Boolean).join(' · ')}{entry.data.instrumentation.length > 0 && ' - for ' + entry.data.instrumentation.join(', ')}</p>
+            {entry.data.links.length > 0 && (
+            <ul>
+              {entry.data.links.map((link) => (
+                <li><a href={link.url} target="_blank" rel="noopener">{link.label}</a></li>
+              ))}
+            </ul>
+            )}
+            <ol class="tracks">
+              {entry.data.tracks.map((t) => (
+                <li>
+                  {t.title} ({t.duration})
+                  {t.audio && <audio controls preload="none" src={t.audio} data-title={t.title} />}
+                </li>
+                  ))}
+            </ol>
+          </div>
         </section>
-        {works.map((entry) => {
-          return (
-            <section class="window" id={entry.id} hidden>
-              <header class="titlebar" tabindex="0"><a href={'/works/' + entry.id} target="_blank">{entry.data.title}</a><button class="minbtn">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
-              <div class="body">
-                {entry.data.coverArt && <Image src={entry.data.coverArt} alt="" width={64} />}
-                <p>{entry.data.title} - {[labelFor[entry.data.kind], entry.data.year].filter(Boolean).join(' · ')}{entry.data.instrumentation.length > 0 && ' - for ' + entry.data.instrumentation.join(', ')}</p>
-                <ol class="tracks">
-                  {entry.data.tracks.map((t) => (
-                    <li>
-                      {t.title} ({t.duration})
-                      {t.audio && <audio controls preload="none" src={t.audio} data-title={t.title} />}
-                    </li>
-                      ))}
-                </ol>
-              </div>
-            </section>
-          );
-        })}
-          <section class="window folder" id="selected-works" hidden>
-            <header class="titlebar" tabindex="0"><a href="#selected-works">Highlighted Works</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
-              <div class="body">
-                <ul class="files">
-                  {works.filter((entry) => entry.data.selected).map((entry) => (
-                    <li>
-                      <a href={'/works/' + entry.id + '/'} target="_blank">
-                        <img src={iconFor(entry.data)} alt="" width="16" height="16" />
-                        <span>{entry.data.title}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-                <p class="status">{works.length} object(s)</p>
-              </div>
-          </section>
-          <section class="window folder" id="links" hidden>
-            <header class="titlebar" tabindex="0"><a href="#links">Find me elsewhere</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
-              <div class="body">  
-                <ul class="files">
-                  {links.map((link) => (
-                    <li>
-                      <a href={link.url} target="_blank" rel="noopener">
-                        <img src="/icons/globe.png" alt="" width="16" height="16" />
-                        <span>{link.label}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-          </section>
-        </Desktop>
-      </main>
-    </DeskLayout>
-  </body>
-</html>
+      );
+    })}
+      <section class="window folder" id="selected-works" hidden>
+        <header class="titlebar" tabindex="0"><a href="#selected-works">Highlighted Works</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+          <div class="body">
+            <ul class="files">
+              {works.filter((entry) => entry.data.selected).map((entry) => <FileItem entry={entry} />)}
+            </ul>
+          </div>
+      </section>
+      <section class="window folder" id="links" hidden>
+        <header class="titlebar" tabindex="0"><a href="#links">Find me elsewhere</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+          <div class="body">  
+            <ul class="files">
+              {links.map((link) => (
+                <li>
+                  <a href={link.url} target="_blank" rel="noopener">
+                    <img src="/icons/globe.png" alt="" width="16" height="16" />
+                    <span>{link.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+      </section>
+    </Desktop>
+  </main>
+</DeskLayout>
