@@ -8,7 +8,7 @@ import DeskLayout from '../layouts/DeskLayout.astro';
 import { labelFor, iconFor } from '../lib/kinds.ts';
 import FileItem from '../components/FileItem.astro';
 import Settings from '../components/Settings.tsx';
-// import ArtistsStatement from '../components/ArtistsStatement.astro';
+import ArtistsStatement from '../components/ArtistsStatement.astro';
 import Player from '../components/Player.tsx';
 
 const works = await getCollection('works', ({ data }) => !data.draft);
@@ -65,6 +65,10 @@ const playlist = works.flatMap((w) =>
       <img src="/icons/exe-about.png" alt="" width="32" height="32" />
       <span>About.exe</span>
     </a>
+    <a class="icon" href="#ArtistsStatement">
+      <img src="/icons/exe-help.png" alt="" width="32" height="32" />
+      <span>Artist's Statement</span>
+    </a>
     <a class="icon" href="#help">
       <img src="/icons/exe-help.png" alt="" width="32" height="32" />
       <span>HELP.exe</span>
@@ -90,6 +94,12 @@ const playlist = works.flatMap((w) =>
       <header class="titlebar" tabindex="0"><a href="#about">About</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
       <div class="body">
         <Bio />
+      </div>
+    </section>
+    <section class="window" id="ArtistsStatement" hidden>
+      <header class="titlebar" tabindex="0"><a href="#ArtistsStatement">Interactive Artist's Statement</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+      <div class="body">
+        <ArtistsStatement />
       </div>
     </section>
     <section class="window" id="help" hidden>
