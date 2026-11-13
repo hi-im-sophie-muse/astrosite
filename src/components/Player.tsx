@@ -43,8 +43,12 @@ export default function Player({ tracks }: { tracks: Track[] }) {
       </div>
       <audio
         ref={audio}
+        controls
         preload="none"
-        onPlay={() => setOn(true)}
+        onPlay={() => {
+          setOn(true);
+          document.documentElement.dataset.clippy = 'on';
+        }}
         onPause={() => setOn(false)}
         onEnded={() => go(i + 1)}
       />

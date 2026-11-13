@@ -20,6 +20,7 @@ tracks:
   - title: Spring I
     duration: 1:11
     description: "Not supposed to pick favorites, but this is my favorite I think? Imagine sitting in a forest whose temperatures relax you and the creatures around you."
+    audio: /audio/4-seasons-x2/05_4Seasons_Spring1.mp3
   - title: Spring II
     duration: 1:01
     description: "Reprise of Autumn I, to depict the idea of leaves regrowing and signaling the cycle of new life."
@@ -55,6 +56,7 @@ links:
 # coverArt: ../../../public/icons/testwork0.png        
 # featured: true
 selected: true
+
 ---
 
 Multi-movement work consisting of 2 iterations of each season starting with autumn. At an early point in my life, I was indirectly affiliated with the luxury hotel chain mentioned in the title but that company is in no way associated with this piece. Individual tracks can be listened to separately, the whole work includes transitions to smooth thigns out.

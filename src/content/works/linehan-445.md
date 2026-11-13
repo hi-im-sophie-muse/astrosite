@@ -7,6 +7,7 @@ tracks:
          - title: "Linehan 4:4-5 (Emotional Regulation Handout 4/4a/5; DBT® Skills Training Handouts and Worksheets, 2nd ed. by Marsha M. Linehan)"
            duration: "4:49"
            description: "Not sponsored by the author. Evolutions of a basic theme wrought through several moods."
+           audio: /audio/linehan-445/06_Linehan445.mp3
 links:
          - label: YouTube
            url: https://www.youtube.com/watch?v=jzatHOCY5g4
@@ -16,7 +17,8 @@ instrumentation:
 
 selected: true
 group: "solo piano"
-
+coverArt: ../../../public/icons/linehan445.png
+icon:  ../../../icons/linehan445
 ---
 
 Therapy is about feeling personally attacked and then figuring out why that is + how to fix it.

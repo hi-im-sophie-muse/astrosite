@@ -7,6 +7,9 @@ import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 // Define a `loader` and `schema` for each collection
 
+// postponed: see source file for justification
+// import {INSTRUMENTS} from './lib/instruments';
+
 // THIS MODIFIES BLOG!!
 const blog = defineCollection({
     loader: glob({ pattern: '**/[^_]*.md', base: "./src/blog" }),
@@ -46,6 +49,7 @@ const works = defineCollection({
       .default([]),
     draft: z.boolean().default(false),
     links: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
+// insrumentation: z.array(z.enum(INSTRUMENTS)).default([]) if using lib, else:
     instrumentation: z.array(z.string()).default([]),
     coverArt: image().optional(),
     order: z.number().default(100),

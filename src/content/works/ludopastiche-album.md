@@ -14,6 +14,7 @@ tracks:
   - title: Pet Strength Exhibition
     duration: 0:47
     description: uh oh, a trainer placed next to nurse joy wants to fight you and leaves you absolutely no choice! hope you have heals!!
+    audio: /audio/ludopastiche-album/02_PetStrengthExhibition.mp3
   - title: Visions of the Elements
     duration: 1:13
     description: Character theme music attempt, from music prior to the 2.0 patch.
@@ -108,11 +109,12 @@ group: Works
 selected: true
 links:
 - label: Program notes (rationale and game answers)
-  url: https://hi.imsophiemuse.com/ludopastiche.html 
+  url: https://hi.imsophiemuse.com/ludopastiche
 - label: uncut 
   url: https://www.youtube.com/watch?v=H26Q3Mhe3U8
 - label: bandcamp
   url: https://hiimsophiemuse.bandcamp.com/album/ludopastiche
+
 ---
 
 https://hi.imsophiemuse.com/ludopastiche.html

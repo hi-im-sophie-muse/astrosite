@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { play } from '../lib/sounds';
 
 export default function Settings() {
   const [now, setNow] = useState<Record<string, string | undefined>>({});
@@ -13,6 +14,7 @@ export default function Settings() {
       localStorage.setItem('desktop-' + name, value);
     } catch {}
     setNow((n) => ({ ...n, [name]: value }));
+    if (name === 'sound' && value === 'on') play('chime');
   };
 
   return (
@@ -25,7 +27,7 @@ export default function Settings() {
       </fieldset>
       <fieldset>
         <legend>Sound and motion</legend>
-        <label><input type="checkbox" checked={now.sound === 'on'} onChange={(e) => pick('sound', e.currentTarget.checked ? 'on' : '')} /> Sounds</label>
+        <label><input type="checkbox" checked={now.sound === 'on'} onChange={(e) => pick('sound', e.currentTarget.checked ? 'on' : '')} /> Sound effects</label>
         <label><input type="checkbox" checked={now.motion === 'still'} onChange={(e) => pick('motion', e.currentTarget.checked ? 'still' : '')} /> Hold still</label>
       </fieldset>
     </form>

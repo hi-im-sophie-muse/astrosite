@@ -10,7 +10,7 @@ tracks:
     description: Piano track with pedal tone and meter changes to keep people on their toes.
 instrumentation:
   - piano
-group: Works
+group: solo piano
 links:
  - label: YouTube
    url: https://www.youtube.com/watch?v=IvlW7PwX28M

@@ -7,6 +7,7 @@ tracks:
          - title: "Where the Forest Lies"
            duration: "1:50"
            description: "Vertically composed interactive track with three layers: base, sneak, and fight"
+           audio: /audio/where-the-forest-lies-demo/01_WhereTheForestLiesBASE.mp3
          - title: "Bookend Screen"
            duration: "0:15"
            description: "A title screen, or maybe a game over screen? Both if I'm lucky enough"
@@ -30,7 +31,6 @@ instrumentation:
 
 featured: true
 selected: true
-
 ---
 
 I laid the groundwork for worldbuilding, and every upload has a different story depending on where you view it :)

@@ -8,6 +8,7 @@ tracks:
   - title: Unreachable
     duration: 3:11
     description: Stressed out angry song meant to express and release rage. Reworked into metal from a solo violin song and assigned to the final boss of Klei.
+    audio: /audio/unreachable/03_Unreachable.mp3
 instrumentation:
   - violin
   - drum
@@ -17,6 +18,7 @@ links:
  - label: YouTube (metal)
    url: https://www.youtube.com/watch?v=TKoHmWT31Nc
 selected: true
+
 ---
 
 

@@ -10,9 +10,11 @@ import FileItem from '../components/FileItem.astro';
 import Settings from '../components/Settings.tsx';
 import ArtistsStatement from '../components/ArtistsStatement.astro';
 import Player from '../components/Player.tsx';
+import Clippy from '../components/Clippy.tsx';
 
 const works = await getCollection('works', ({ data }) => !data.draft);
 works.sort((a,b) => a.data.order - b.data.order || b.data.year - a.data.year);
+
 
 const person = {
   '@context': 'https://schema.org',
@@ -36,6 +38,9 @@ const playlist = works.flatMap((w) =>
     .map((t) => ({ title: t.title, src: t.audio!, work: w.data.title })),
 );
 
+const groups = [...new Set(works.map((w) => w.data.group))].filter((g) => g !== 'Works');
+const instruments = [...new Set(works.flatMap((w) => w.data.instrumentation))].sort();
+
 ---
 <DeskLayout title="landing • hi, i'm Sophie Lacson-Lambinet" description="Composer who specializes in orchestral video game music, but can do tons more! Sophie Lacson-Lambinet shares her Windows 95 desktop for visitors to peruse" schema={person}>   
 <noscript><style is:inline>.window[hidden] { display: block; position: static; }</style></noscript>
@@ -43,6 +48,10 @@ const playlist = works.flatMap((w) =>
 <!--  <h2><a href="./sandbox" target="_blank">ORIGINAL ASTRO v0.4 HOMEPAGE</a><br/></h2> rest in peace -->
   <Desktop client:load>
   <nav class="icons" aria-label="shortcuts">
+    <a class="icon" href="#settings">
+      <img src="/icons/exe-settings.png" alt="" width="32" height="32" />
+      <span>Settings</span>
+    </a>
     <a class="icon" href="#selected-works">
       <img src="/icons/folder.png" alt="" width="32" height="32" />
       <span>Highlighted Works</span>
@@ -63,29 +72,25 @@ const playlist = works.flatMap((w) =>
     ))}
     <a class="icon" href="#about">
       <img src="/icons/exe-about.png" alt="" width="32" height="32" />
-      <span>About.exe</span>
+      <span>About.txt</span>
     </a>
     <a class="icon" href="#ArtistsStatement">
-      <img src="/icons/exe-help.png" alt="" width="32" height="32" />
-      <span>Artist's Statement</span>
+      <img src="/icons/artists-statement.png" alt="" width="32" height="32" />
+      <span>Artist's Statement.exe</span>
     </a>
     <a class="icon" href="#help">
       <img src="/icons/exe-help.png" alt="" width="32" height="32" />
-      <span>HELP.exe</span>
-    </a>
-    <a class="icon" href="#settings">
-      <img src="/icons/exe-settings.png" alt="" width="32" height="32" />
-      <span>Settings.exe</span>
+      <span>HELP.txt</span>
     </a>
     <a class="icon" href="#player">
       <img src="/icons/exe-player.png" alt="" width="32" height="32" />
-      <span>Sophamp.exe</span>
+      <span>VINAMP (LEGIT).exe</span>
     </a>
     <section class="window" id="welcome" hidden>
       <header class="titlebar" tabindex="0"><a href="#welcome">Welcome! Thanks for stopping by.</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
       <div class="body">
         <h2>hi, I'm Sophie, and you've reached my desktop.</h2>
-        <p><i>Interactivity sits at the center of everything I do.</i><br><br> How this works: <br> <br>ONE press to open any icon. The minimize ( _ ), maximize (square) and close (x) buttons are functional, as is the task (bottom) bar. Dark/light modes available in Settings.exe. <br><br> That's it. <br> Go forth and play. </p>
+        <p><i>Interactivity sits at the center of everything I do.</i><br><br> How this works: <br> <br>ONE press to open any icon. The minimize ( _ ), maximize (square) and close (x) buttons are functional, as is the task (bottom) bar. Dark/light modes available in Settings. <br><br> That's it. <br> Go forth and play. </p>
         <label><input type="checkbox" id="welcome-again" checked /> Show this next time</label>
       </div>
     </section>
@@ -115,20 +120,22 @@ const playlist = works.flatMap((w) =>
           <li>DIRECTIONAL ARROWS (<kbd>↑</kbd>, <kbd>→</kbd>, <kbd>↓</kbd>, <kbd>←</kbd>): Move the selected window. Note that the blue bar must be selected, not the content inside.</li>
         </ul>
         <p>SITEMAP:</p>
-        <ul>
-          <li>HELP: You are here.</li>
+        <ul>          
+          <li>Settings: Change the theme, sound, and motion settings for this site.</li>
           <li>Highlighted works: Short on time? Here's a few works I'd love for you to focus on! Each one focuses on a different compositional strength (though it's not exhaustive!).</li>
-          <li>All works: All of my works, at once. Click on them to learn more - where to listen, instrumentation, release date, inspiration, etc. Unlike a true sitemap, I am not about to list all 80+ of these links in this small space.</li>
+          <li>All works: All of my works, at once. Click on them to learn more - where to listen, instrumentation, release date, inspiration, etc. Unlike a true sitemap, I am not about to list all 60+ of these links in this small space.</li>
           <li>Find me elsewhere: Contact me through your favorite platform! Email upon request.</li>
           <li>About: What I'm about. A biography.</li>
-          <li>Interactive Artist's Statement: Brand demonstration + more about my creative vision</li>
-          <li>Settings: Change the theme, sound, and motion settings for this site.</li>
-          <li>404: Have you consulted HELP.exe ? (page not found - check for typos?)</li>
+          <li>Interactive Artist's Statement: Brand demonstration + more about my creative vision.</li>
+          <li>HELP: You are here.</li>
+          <li>VINAMP (LEGIT): Music player that presently ironically plays everything in a fixed order. Absolutely legit.</li>
+          <li>404: Have you consulted HELP.txt ? (page not found - check for typos?)</li>
         </ul>
         <p>EXTRAS:</p>
         <ul>
-          <li>Start button, bottom left: List view of links from desktop icons.</li>
+          <li>Start button, bottom left: Restore the desktop & see a list view of links from desktop icons.</li>
           <li>Task bar, grey bar: Keeps track of opened and minimized windows. Using the x button clears them from the screen and task bar. </li>
+          <li>?????: YIPPEEEEE</li>
         </ul>
       </div>
     </section>
@@ -139,7 +146,7 @@ const playlist = works.flatMap((w) =>
       </div>
     </section>
           <section class="window" id="player" hidden>
-          <header class="titlebar" tabindex="0"><a href="#player">Sophamp</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+          <header class="titlebar" tabindex="0"><a href="#player">Vinamp (LEGIT)</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
           <div class="body">
             <Player client:load tracks={playlist} />
           </div>
@@ -151,13 +158,41 @@ const playlist = works.flatMap((w) =>
               <button type="button" data-view="list">List</button>
               <button type="button" data-view="icons">Icons</button>
               <button type="button" data-view="details">Details</button>
+            </p><p><a href="https://docs.google.com/document/d/e/2PACX-1vRA6YwbdmKV-FxqnYzzRs64OFkzduv8QNo1viTagpBTSiRjGrxpsrpFu6sK8XoShrSpgVxR96usWUOF/pub" target="_blank">Google Docs version</a></p>
+            <p class="filter">
+              <label>Instrument: <input type="search" list="instruments" /></label>
+              <datalist id="instruments">
+                  {instruments.map((name) => <option value={name} />)}
+              </datalist>
             </p>
-            <ul class="files">
-              {works.map((entry) => <FileItem entry={entry} />)}
-            </ul>
+            <ul class="files browse">
+                {groups.map((g, n) => (
+                  <li>
+                    <a href={'#group-' + n} data-open>
+                      <img src="/icons/folder.png" alt="" width="16" height="16" />
+                      <span>{g}</span>
+                    </a>
+                  </li>
+                ))}
+                {works.filter((entry) => entry.data.group === 'Works').map((entry) => <FileItem entry={entry} />)}
+              </ul>
+              <ul class="files found">
+                {works.map((entry) => <FileItem entry={entry} />)}
+              </ul>
             <p class="status">{works.length} object(s)</p>
           </div>
     </section>
+            {groups.map((g, n) => (
+          <section class="window folder" id={'group-' + n} hidden>
+            <header class="titlebar" tabindex="0"><a href={'#group-' + n}>{g}</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
+            <div class="body">
+              <ul class="files">
+                {works.filter((entry) => entry.data.group === g).map((entry) => <FileItem entry={entry} />)}
+              </ul>
+              <p class="status">{works.filter((entry) => entry.data.group === g).length} object(s)</p>
+            </div>
+          </section>
+        ))}
     {works.map((entry) => {
       return (
         <section class="window" id={entry.id} hidden>
@@ -187,6 +222,7 @@ const playlist = works.flatMap((w) =>
       <section class="window folder" id="selected-works" hidden>
         <header class="titlebar" tabindex="0"><a href="#selected-works">Highlighted Works</a><button class="minbtn" type="button" aria-label="minimize">_</button><button class="maxbtn" type="button" aria-label="maximize">□</button><button class="closebtn" type="button" aria-label="close">×</button></header>
           <div class="body">
+            <p>Truncated list of works demonstrating an array of different styles:</p>
             <ul class="files">
               {works.filter((entry) => entry.data.selected).map((entry) => <FileItem entry={entry} />)}
             </ul>
@@ -208,5 +244,15 @@ const playlist = works.flatMap((w) =>
           </div>
       </section>
     </Desktop>
+  <Clippy client:load />
   </main>
 </DeskLayout>
+<!-- TODO: 
+ Start menu shows too many links, decide on which ones to actually show (all open windows? icons only?)
+ Domain switcheroo 
+ Goat Counter
+ Site map update after switcheroo
+ Link to old site
+ Images: about me banner to present about me; header photo in Welcome window
+ filter by has url/has audio?
+ -->

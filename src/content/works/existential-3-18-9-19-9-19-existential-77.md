@@ -17,6 +17,8 @@ group: Works
 links:
  - label: music video!! handmade and took many months despite not knowing anything about digital art, art, or animation
    url: https://www.youtube.com/watch?v=WUF5wg4h770
+coverArt: ../../../public/icons/ext77.png
+icon:  ../../../icons/ext77
 ---
 
 Comes with a music video

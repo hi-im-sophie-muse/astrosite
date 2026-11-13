@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'preact/hooks';
 import type { ComponentChildren } from 'preact';
+import { play } from '../lib/sounds';
 
 export default function Desktop({ children }: { children: ComponentChildren }) {
   const drag = useRef<{ el: HTMLElement; dx: number; dy: number } | null>(null);
@@ -11,6 +12,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   const startBtn = useRef<HTMLButtonElement>(null);
   const [msg, setMsg] = useState('');
   const [playing, setPlaying] = useState('');
+  const [menu, setMenu] = useState<{ x: number; y: number } | null>(null);
   const titleOf = (id: string) => wins.find((w) => w.id === id)?.title ?? id;
   const CAP = 16;
   const wide = () => matchMedia('(min-width: 48rem)').matches;
@@ -18,6 +20,8 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   const denied = useRef<HTMLDialogElement>(null);
   const leaving = useRef(false);
   const party = useRef<HTMLDialogElement>(null);
+  const third = useRef<HTMLDialogElement>(null); // I know it triggers on four but I didn't want to change everything when I just need to swap a 3 for a 4.
+  
 
   useEffect(() => {
     const els = [...document.querySelectorAll<HTMLElement>('.window')];
@@ -34,6 +38,9 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
       const el = document.getElementById(id);
       if (el) moveTo(el, Math.min(p.x, innerWidth - 160), Math.min(p.y, innerHeight - 120));
     }
+    const visits = (saved.visits ?? 0) + 1;
+    save({ visits });
+    if (visits === 4) third.current?.showModal();
     for (const id of saved.maxed ?? []) {
       document.getElementById(id)?.classList.add('maxed');
     }
@@ -66,7 +73,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
     return () => window.removeEventListener('pagehide', onLeave);
   }, []);
   
-// uE2: start menu
+// uE: start menu
   useEffect(() => {
   if (!startOpen) return;
   const onDown = (e: PointerEvent) => {
@@ -76,7 +83,27 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   return () => document.removeEventListener('pointerdown', onDown);
 }, [startOpen]);
 
+  useEffect(() => {
+    const onMenu = (e: MouseEvent) => {
+      const t = e.target as HTMLElement;
+      if (winOf(t) || t.closest('.taskbar')) return;
+      e.preventDefault();
+      const r = t.getBoundingClientRect();
+      setMenu({ x: e.clientX || r.left, y: e.clientY || r.bottom });
+    };
+    document.addEventListener('contextmenu', onMenu);
+    return () => document.removeEventListener('contextmenu', onMenu);
+  }, []);
 
+  useEffect(() => {
+    if (!menu) return;
+    document.querySelector<HTMLElement>('.deskmenu button')?.focus();
+    const onDown = (e: PointerEvent) => {
+      if (!(e.target as HTMLElement).closest('.deskmenu')) setMenu(null);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, [menu]);
 
   const winOf = (t: EventTarget | null) =>
     (t as HTMLElement | null)?.closest?.('.window') as HTMLElement | null;
@@ -117,18 +144,22 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
   };
 
   const closeWin = (id: string) => {
+    play('close');
     document.getElementById(id)?.setAttribute('hidden', '');
     setClosed((h) => (h.includes(id) ? h : [...h, id]));
+    document.getElementById(id)?.querySelectorAll('audio').forEach((a) => a.pause());
   };
 
   const show = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
         if (closed.includes(id) && wins.length - closed.length >= CAP) {
-      fullBox.current?.showModal();
-      return;
-    }
+          play('ding');
+          fullBox.current?.showModal();
+          return;
+        }
     el.removeAttribute('hidden');
+    play('open');
     place(el);
     raise(el);
         if (!wide()) {
@@ -188,7 +219,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
       const r = w.getBoundingClientRect();
       return r.left >= innerWidth || r.top >= innerHeight;
     });
-    if (gone.length === 5) party.current?.showModal();
+    if (gone.length === 5) { play('tada'); party.current?.showModal(); }
   };
   
   const NUDGE: Record<string, [number, number]> = {
@@ -204,6 +235,21 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         const t = e.target as HTMLInputElement;
         if (t.id === 'welcome-again') save({ welcome: t.checked });
       }}
+      onInput={(e) => {
+        const box = e.target as HTMLInputElement;
+        if (box.type !== 'search') return;
+        const folder = box.closest<HTMLElement>('.folder');
+        if (!folder) return;
+        const want = box.value.trim().toLowerCase();
+        if (want) folder.dataset.filter = want;
+        else delete folder.dataset.filter;
+        for (const li of folder.querySelectorAll<HTMLElement>('.found li')) {
+          li.hidden = !(li.dataset.tags ?? '').includes(want);
+        }
+        const shown = [...folder.querySelectorAll<HTMLElement>('.found li')].filter((li) => !li.hidden).length;
+        const status = folder.querySelector('.status');
+        if (status) status.textContent = shown + (want ? ' object(s) found' : ' object(s)');
+      }}
       onPlayCapture={(e) => {
         const track = e.target as HTMLAudioElement;
         for (const other of document.querySelectorAll('audio')) {
@@ -217,7 +263,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
       }}
       onClick={(e) => {
         const t = e.target as HTMLElement;
-        const icon = (e.target as HTMLElement).closest('a.icon') as HTMLAnchorElement | null;
+        const icon = (e.target as HTMLElement).closest('a.icon, a[data-open]') as HTMLAnchorElement | null;
         if (icon) {
           e.preventDefault();
           show(icon.hash.slice(1));
@@ -271,6 +317,10 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
         if (!home.current.has(win)) home.current.set(win, pos(win));
       }}
       onKeyDown={(e) => {
+        if (e.key === 'Escape' && menu) {
+          setMenu(null);
+          return;
+        }
         if (e.key === 'Escape' && startOpen) {
           setStartOpen(false);
           startBtn.current?.focus();
@@ -324,12 +374,24 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
           <button>Cancel</button>
         </form>
       </dialog>
-            <dialog ref={party} className="alert">
+      <dialog ref={party} className="alert">
         <p>YOU'RE WINNER !</p><p style="text-align: center;">🏆</p>
         <form method="dialog">
           <button>OK</button><button><a href="https://youtu.be/feNk7qsU2lY?si=vluIFYKCagFMDGYJ&t=54" target="_blank">NEVER LOSE</a></button>
         </form>
       </dialog>
+      <dialog ref={third} className="alert">
+        <p>it's your fourth time here (since you've last restored the desktop to default), thank you for that.</p>
+        <form method="dialog">
+          <button>OK</button><button><a href="https://www.youtube.com/watch?v=u8ccGjar4Es" target="_blank">I CAN ONLY COUNT TO FOUR</a></button>
+        </form>
+      </dialog>
+      {menu && (
+        <ul className="startmenu deskmenu" style={{ left: menu.x + 'px', top: menu.y + 'px' }}>
+          <li><button type="button" onClick={() => location.reload()}>Refresh</button></li>
+          <li><button type="button" onClick={() => { setMenu(null); show('settings'); }}>Settings</button></li>
+        </ul>
+      )}
         {children}
         <nav className="taskbar" aria-label="open windows">
           <span className="start">

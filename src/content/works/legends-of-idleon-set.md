@@ -53,6 +53,8 @@ featured: true
 links:
  - label: YouTube Playlist
    url: https://www.youtube.com/watch?v=Ig0gFzg1k7k&list=PLwMi9SF8z5D-0I2j7h8XEMBfHkI5G9o85
+coverArt: ../../../public/icons/LOI.png
+icon:  ../../../icons/LOI
 ---
 
 Set 1 includes the tutorial, sewer, cave, forest, and nighttime desert; Set 2 includes icy cavern and icy town; Set 3 includes space

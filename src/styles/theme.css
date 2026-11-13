@@ -66,8 +66,8 @@
   --title-b: #1076c0; /* #000080; */
   --text: #fff;
   --paper: #555555; /* achieved mathematically and not superstitiously nor surreptitiously */
-  --link: #daffff; 
-  --visited: #FEF5FF; /* should I even try at this point lol */
+  --link: #99eeff; /* daeeff */ 
+  --visited: #ff77ff; /* should I even try at this point lol fef5ff */
 }
 
 :root[data-theme='black'] {
@@ -79,6 +79,8 @@
   --title-b: #3a3a3a;
   --text: #f0f0f0;
   --paper: #111111;
+  --link:#22ddff;
+  --visited: #fdafda;
 }
 
 /* :root[data-theme='night'] a:link { color: #1076c0; } 
@@ -352,7 +354,9 @@ text-decoration: red wavy underline; /* Wavy red line */
   visibility: visible; /* triggers the visibility while hovered, it was hidden before */
 } 
 
-/* .particles span {
+/* 
+postponed feature >> TBD justification: feels too christmas-y
+.particles span {
   position: fixed;
   top: -1rem;
   left: calc(var(--i) * 8%);
@@ -394,8 +398,8 @@ text-decoration: red wavy underline; /* Wavy red line */
 }
 
 .winamp {
-  background: #1c1c28 url('/skin.png') center / cover;
-  color: magenta;
+  background: #000 url('/skin.png') center / cover;
+  color: violet;
   font-family: 'WIN95FA', monospace;
   padding: 0.5rem;
 }
@@ -475,3 +479,54 @@ text-decoration: red wavy underline; /* Wavy red line */
 }
 
 :root[data-motion='still'] .winamp[data-on] .spectrum span { animation: none; }
+
+.folder[data-filter] .files.browse,
+.folder:not([data-filter]) .files.found { display: none; }
+
+.filter { margin: 0 0 0.5rem; }
+
+    .clippy {
+  position: fixed;
+  right: 1rem;
+  bottom: 3.4rem;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.clippy button { background: none; border: none; padding: 0; }
+.clippy img { image-rendering: pixelated; animation: bob 2s ease-in-out infinite alternate; }
+
+.bubble {
+  max-width: 14rem;
+  margin: 0;
+  padding: 0.5rem;
+  background: #ffffe1;
+  color: #0a0a0a;
+  border: 1px solid #0a0a0a;
+}
+
+.bubble:empty { display: none; }
+
+@keyframes bob {
+  to { transform: translateY(-4px); }
+}
+
+@media (max-width: 48rem) {
+  .clippy { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clippy img { animation: none; }
+}
+
+:root[data-motion='still'] .clippy img { animation: none; } 
+
+:root:not([data-clippy='on']) .clippy { display: none; }
+
+.deskmenu {
+  position: fixed;
+  bottom: auto;
+  z-index: 10001;
+}
