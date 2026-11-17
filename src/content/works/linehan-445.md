@@ -18,7 +18,7 @@ instrumentation:
 selected: true
 group: "solo piano"
 coverArt: ../../../public/icons/linehan445.png
-icon:  ../../../icons/linehan445
+icon:  linehan445
 ---
 
 Therapy is about feeling personally attacked and then figuring out why that is + how to fix it.

@@ -21,7 +21,7 @@ links:
  - label: original with score
    url: https://www.youtube.com/watch?v=Q77AC2py-EA
 coverArt: ../../../public/icons/skelewalk.png
-icon:  ../../../icons/skelewalk
+icon:  skelewalk
 ---
 
 Director’s Cut (2025) has a music video
