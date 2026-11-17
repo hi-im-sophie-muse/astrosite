@@ -405,7 +405,7 @@ export default function Desktop({ children }: { children: ComponentChildren }) {
             </button>
             {startOpen && (
               <ul className="startmenu">
-                {wins.map((w) => (
+                {wins.filter((w) => document.querySelector('.icons a.icon[href="#' + w.id + '"]')).map((w) => (
                   <li key={w.id}>
                     <button
                       type="button"

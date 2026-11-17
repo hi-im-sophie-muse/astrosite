@@ -4,4 +4,4 @@ User-agent: *
 Allow: /
 Disallow: /audio/
 Disallow: /sounds/
-Sitemap: https://hi-im-sophie-muse.netlify.app/sitemap-index.xml
+Sitemap: https://imsophiemuse.com/sitemap-index.xml

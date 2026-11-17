@@ -8,5 +8,5 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   integrations: [preact(), sitemap()],
-  site: 'https://hi-im-sophie-muse.netlify.app/'
+  site: 'https://imsophiemuse.com/'
 });
