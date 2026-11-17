@@ -1,0 +1,1 @@
+var e=e=>{document.documentElement.dataset.sound===`on`&&new Audio(`/sounds/`+e+`.mp3`).play().catch(()=>{})};export{e as t};
